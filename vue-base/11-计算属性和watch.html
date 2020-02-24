@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>计算属性和watch</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			我的全名是：{{fullName}}
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					firstName:"laura",
+					lastName:"Yin",
+					//fullName:"lauraYin"
+				},
+				//计算属性
+				//计算属性 可以监听多个值的变化，而watch只能监听一个值的变化
+				//watch 当需要在数据变化时执行异步或开销较大的操作时才使用
+				computed:{
+					fullName:function(){
+						console.log("计算属性的函数执行了");
+						return this.firstName + this.lastName;
+					}
+				}
+				
+				
+				//监听
+				/*
+				只要值发生变化，默认会触发watch中对应的函数
+				*/
+				// watch:{
+				// 	//newValue 变化的新值 
+				// 	//oldValue 原来的旧值
+				// 	firstName:function(newValue,oldValue){
+				// 		console.log(newValue +":"+oldValue);
+				// 		return this.fullName = newValue + this.lastName
+				// 	},
+				// 	lastName:function(newValue,oldValue){
+				// 		console.log(newValue +":"+oldValue);
+				// 		return this.fullName = this.firstName + newValue;
+				// 	}
+				// }
+			})
+		</script>
+	</body>
+</html>

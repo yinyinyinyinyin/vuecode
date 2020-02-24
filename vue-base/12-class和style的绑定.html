@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>class和style</title>
+		<style type="text/css">
+			.myclass{width:100px; height:100px; background: blue;}
+			.active{color:green;}
+			.danger{border:1px solid red;}
+			.ttt{border:4px dotted orange;}
+		</style>
+	</head>
+	<body>
+		<script src="js/vue.js"></script>
+		<div id="app">
+			1.class 使用 v-bind绑定时可以使用对象的方式
+			<div :class="myClass" class="ttt">春花秋月何时了</div>****
+			<div :class="{active:isActive,danger:isDanger}">往事知多少</div>
+			
+			<div :class="[myClass,activeClass]">往事知多少</div>
+			<div :class="isActive ? 'active' :'danger'">****class的三目运算符的使用</div>
+			<div :class="[isActive ? 'active' :'danger', myClass]">class的三目运算符的使用</div>
+			2.style 使用 v-bind绑定时可以使用对象的方式
+			<div :style="{color:'pink',background:'blue'}">小楼昨夜又东风</div>
+			<div :style="{color:pinkColor,background:blueColor}">小楼昨夜又东风</div>
+			<div :style="myStyle">故国不堪回首月明中</div>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					myClass:"myclass",
+					isActive:true,
+					isDanger:false,
+					pinkColor:'pink',
+					blueColor:'blue',
+					activeClass:"active",
+					myStyle:{color:'pink',background:'blue'}
+				}
+			})
+		</script>
+	</body>
+</html>
