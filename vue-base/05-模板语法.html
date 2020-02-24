@@ -25,6 +25,10 @@
 			<div v-bind:id="myid" v-bind:class="myclass">电影列表</div>
 			<button v-bind:disabled="myDis">{{myBtnText}}</button>
 			<img v-bind:src="myImg" />
+			<!-- 这是语句，不是表达式  ,所以会报错
+			<div>{{var a = 1}}</div>-->
+			<!-- 流控制也不会生效，请使用三元表达式,所以下面的语句会报错
+			{{if(ok){return message} }} -->
 		</div>
 		<script type="text/javascript">
 			var vm = new Vue({

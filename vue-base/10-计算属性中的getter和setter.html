@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>反转字符串</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			原字符串:{{message}}<br/>
+			反转字符串：{{reverseMessage}}
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					message:"hello world"
+				},
+				
+				computed:{
+					// reverseMessage:{
+					// 	get:function(){
+					// 		console.log(this);
+					// 		return this.message.split("").reverse().join("");
+					// 	},
+					// 	set:function(){//vue中计算属性的set方法一般都不使用
+							
+					// 	}
+					// }
+					//计算属性，默认是有 get和set方法的，但是可以将set方法省略，get方法简写成下面方式
+					reverseMessage:function(){
+						console.log(this);
+						return this.message.split("").reverse().join("");
+					}
+				}
+			})
+			//计算属性作业， firstName  lastName  用计算属性连接为 fullName
+		</script>
+	</body>			
+</html>

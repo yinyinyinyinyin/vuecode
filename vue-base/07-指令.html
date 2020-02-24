@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>指令</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			1.指令：是带有 v-前缀的特殊属性，一般情况指令的属性值，是单个的js表达式，v-for除外
+			作用：当表达式的值改变时，将产生连带影响，响应式的作用于页面
+			<!--v-if 
+			v-bind 绑定属性，v-bind的缩写是 :
+			v-on   绑定事件，v-on的缩写是 @
+			v-once
+			v-for 
+			v-html-->
+			<div v-if="ok">显示</div>
+			2.指令的参数   :****  例如 v-bind:src   v-bind:class v-bind:id  v-bind:title ...
+			<a v-bind:href="myurl"> 百度</a>
+			<a :href="myurl"> 百度</a><br/>
+			3.v-on 的属性 :*** 例如： v-on:click  v-on:mouseover 
+			v-on:mouseout v-on:blur v-on:focus v-on:scroll v-on:****
+			<button v-on:click="addFun">点击加一{{num}}</button>
+			<button @click="addFun">点击加一{{num}}</button>
+			
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					num:1,
+					message:"hello",
+					ok:true,
+					myurl:"http://www.baidu.com"
+				},
+				//vue的所有的函数都写在 methods 里面
+				methods:{
+					addFun:function(){
+						console.log('函数调用');
+						this.num++;
+					}
+				}
+			})
+			
+			//作业：点击某个按钮，实现字符串变大写的功能
+			//作业：点击按钮，更改 div的底色，从红色变为绿色
+		</script>
+	</body>
+</html>
