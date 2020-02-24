@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>生命周期</title>
+	</head>
+	<body>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<div id="app">{{message}}</div>
+		<script type="text/javascript">
+			//生命周期：一个vue实例从创建到销毁的全过程
+			//生命周期的钩子函数：就是在生命周期的过程中，运行到某些事件点时自动触发的函数
+			//钩子函数的作用：vue的底层暴露出来的给用户调用的可以添加自己代码的机会
+			/*
+			钩子函数和普通函数的区别：
+			1.钩子函数的名称是不可改变的，普通函数是自行定义的，名字用户可以随便起
+			2.钩子函数是 生命周期执行到某个阶段自动触发的，普通函数必须手动调用
+			*/
+		   
+		   var vm = new Vue({
+			   // el:"#app",
+			    data:{
+				    message:"hello"
+			    },
+			    beforeCreate:function(){
+				   console.log("vue实例创建前，钩子函数运行了");
+			    },
+			    created:function(){
+					console.log("vue实例创建后，钩子函数运行了");
+			    },
+				//在挂载前，el和 html的点点没有关联
+				//vm.$mount("#app")
+				beforeMount:function(){
+					console.log("vue实例挂载前，钩子函数运行了");
+				},
+				mounted:function(){
+					console.log("vue实例挂载后，钩子函数运行了");
+					
+				},
+				//当数据发生改变时，会触发  beforeUpdate  updated函数
+				beforeUpdate:function(){
+					console.log("vue实例更新前，钩子函数运行了");
+				},
+				updated:function(){
+					console.log("vue实例更新后，钩子函数运行了");
+				},
+				beforeDestroy:function(){
+					console.log("vue实例销毁前，钩子函数运行了");
+				},
+				destroyed:function(){
+					console.log("vue实例销毁后，钩子函数运行了");
+				}
+			   
+		   }).$mount("#app");//挂载的写法
+		   
+		   //当销毁的vue组件后，我们再次更改 vm.message,页面将不会再发生变化
+		   /*
+		   一般数据请求，可以放在 created或mounted中，推荐放到 mounted，
+		   放到mounted 里面的好处是，不阻碍基础页面的渲染，当数据异步调用回来后，再填写到页面
+		   对应的html节点中，避免白页的产生
+		   */
+		</script>
+	</body>
+</html>

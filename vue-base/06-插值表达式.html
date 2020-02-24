@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>插值表达式</title>
+		<script type="text/javascript" src="js/vue.js">
+			
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			1.表达式
+			<div>{{number+1}}</div>
+			2.三目运算符
+			<div>{{ok?"yes":"no"}}</div>
+			3.可以调用函数
+			<div>原字符串：{{message}} </div>
+			<div>反转后的字符串：{{message.split("").reverse().join("")}} </div>
+			4.常量和变量混写 *****  使用方式：在路由里列表页跳转到内容页时经常用到
+			<div v-bind:id="'myaaa'+id">列表15</div>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					number:10,
+					ok:true,
+					message:"今天很开心，学习了vue",
+					id:15
+					
+				}
+			})
+		</script>
+	</body>
+</html>

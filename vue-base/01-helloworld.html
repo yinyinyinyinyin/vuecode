@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!--引入网上的vue插件-->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--vue的变量在页面上渲染需要使用 双大括号 {{}} -->
+			{{text}}
+			<div>这位学生的名字是{{stu}}</div>
+			<h1>{{age}}</h1>
+		</div>
+
+		<script type="text/javascript">
+			//创建vue对象
+			var app = new Vue({
+				el:"#app",//将vue对象和 html中的div关联起来，把数据和html的节点进行绑定
+				//只有绑定成功后，这个元素下才可以使用vue的特性
+				data:{//存储的vue实例对象的数据，可以渲染到页面上
+					text:"hello world",
+					stu:"小丽",
+					age:23
+				}
+			})
+			
+			//声明式渲染:Vue中的data中的数据和 页面上显示的数据建立了关联关系，只要data中的
+			//数据发生变化，那么页面上的渲染默认会跟着发生变化
+		</script>
+	</body>
+</html>
