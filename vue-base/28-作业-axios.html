@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			*{padding:0;margin:0;}
+			ul,li{list-style:none;}
+			.list{display: flex; flex-wrap: nowrap; flex-direction: row;}
+			.list li{}
+			.list li div{width: 80px; height:110px; margin:5px; background: lightblue;}
+			.list li div img{width:80px; height:100px;}
+		</style>
+		<meta name="viewport" content="width=device-width" />
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div>
+				<h2>近期值得看的国产剧</h2>
+				<ul class="list">
+					<li v-for="item in guochanList">
+						<div>
+							<img :src="item.cover.url" title="item.title"/>
+							{{item.title}}
+						</div>
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					guochanList:[],
+					zongyiList:[],
+					yingmeiList:[]
+				},
+				// 在钩子函数中获取数据
+				//axios文档  https://www.kancloud.cn/yunye/axios/234845  
+				mounted:function(){
+					//国产
+					axios.get('zuoye/dianshiju.json').then((data)=>{//成功获取数据的回调函数
+						console.log(data);
+						this.guochanList = data.data.subject_collection_items;
+					}).catch((error)=>{//失败的回调函数
+						console.log(error);
+					})
+				}
+			})
+		</script>
+	</body>
+</html>
