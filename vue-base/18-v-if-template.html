@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>v-if</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<button @click = "showFun">显示和隐藏</button>
+			<!--template 可以包裹住一组标签，template这个标签不会被解析成任何标记-->
+			<template v-if="showType">
+				<div>在家呆着</div>
+				<div>勤洗手</div>
+				<div>勤消毒</div>
+				<div>少购物</div>
+			</template>
+			
+			<template v-else>
+				<div>放飞自我</div>
+				<div>去吃好吃的</div>
+				<div>买买买</div>
+				<div>约会</div>
+			</template>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					showType:true //true显示天使
+				},
+				methods:{
+					showFun:function(){
+						this.showType = !this.showType;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

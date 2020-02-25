@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>v-if</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<button @click = "showFun">显示和隐藏</button>
+			<!--v-if   v-else 的写法-->
+			<div v-if = "showType">我是天使</div>
+			<div v-else>魔鬼来了</div>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					showType:true //true显示天使
+				},
+				methods:{
+					showFun:function(){
+						this.showType = !this.showType;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
