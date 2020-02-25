@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>按钮倒计时</title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<button :disabled="mydisabled">{{btntext}}</button>
+		</div>
+		<script type="text/javascript">
+			/*
+			生命周期：vue实例从创建到销毁的全过程
+			钩子函数：生命周期中运行到某个时间点时，自动触发的函数。这些函数是
+			vue底层暴露出来给程序员使用的
+			
+			*/
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					btntext:"10",
+					mydisabled:true
+				},
+				beforeCreate:function(){
+					console.log("创建前的钩子函数");
+					console.log("data:",this.$data);//undefined
+					console.log("el:",this.$el);//undefined
+/*总结:组件的选项对象并没有创建，el和data并没有初始化，
+无法访问 methods，data，computed
+*/
+				},
+				created:function(){
+					console.log("创建后的钩子函数");
+					console.log("data:",this.$data);//data初始化已经完成
+					console.log("el:",this.$el);//undefined
+	/*总结：data已经初始化完了，el没有，el的属性不可见，
+	所以在 created中可以调用  methods，data，computed
+	因为这里 el还没有，所以不建议在 created里面调用 ajax
+	*/				
+				},
+				beforeMount:function(){
+					console.log("挂载前的钩子函数");
+					console.log("data:",this.$data);//data初始化已经完成
+					console.log("el:",this.$el);//el ，但是数据并没有挂载到页面上
+	/*
+	挂载前：相关的render首次被调用，调用了虚拟dom，data和html已经混合在一起了
+	但是，data数据还没有解析  ，还显示为 {{btntext}}
+	*/					
+				},
+	//el已经解析，并且data已经渲染到页面上，一般在这个钩子函数中执行异步操作
+	//mounted 钩子函数只执行一次****
+				
+				mounted:function(){
+					console.log("挂载后的钩子函数");
+					console.log("data:",this.$data);//data初始化已经完成
+					console.log("el:",this.$el);//el已经解析并渲染到页面上
+					var timer = setInterval(()=>{
+						this.btntext--;
+						if(this.btntext <= 0){
+							clearInterval(timer);
+							this.btntext = "确定";
+							this.mydisabled = false;
+						}
+					},1000);
+				},
+				//更新前和更新后的钩子函数可以执行多次
+				beforeUpdate:function(){
+					console.log("更新前的钩子函数");
+				},
+				updated:function(){
+					console.log("更新后的钩子函数");
+				},
+				/*销毁前：做重置操作，清除组件定时器，清除组件的轮播效果，或者监听一些时间*/
+				beforeDestroy:function(){
+					console.log("卸载前的钩子函数");
+				},
+				//销毁后的钩子函数，一般不用程序员去调用
+				destroyed:function(){
+					console.log("卸载后的钩子函数");
+				}
+				
+			})
+		</script>
+	</body>
+</html>
