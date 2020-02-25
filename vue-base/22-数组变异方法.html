@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>变异方法</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="item in arr">{{item}}</li>
+			</ul>
+			<button @click="addFun">添加</button>
+			<button @click="sFun">截取</button>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					arr:["html","css","js"]
+				},
+				methods:{
+					addFun:function(){
+						//this.arr[3] = "new";
+						
+						//我们给arr数组添加了新的元素，但是页面没有同步更新
+						//Vue 将被侦听的数组的变异方法进行了包裹，所以它们也将会触发视图更新。
+						//这些被包裹过的方法包括：push pop shift unshift splice sort reverse
+						//this.arr.push("new");//在使用这些方法时，默认会触发页面更新
+						//console.log(this.arr);
+						
+						//以上问题还可以使用 $set来解决,$set 可以强制性去render页面
+						this.$set(this.arr,3,"scss");
+						console.log(this.arr);
+					},
+					sFun:function(){
+						this.arr = this.arr.slice(0,1);
+						console.log(this.arr);
+					}
+				}
+			})
+			
+			
+			//也有非变异 (non-mutating method) 方法，例如 filter()、concat() 和 slice()
+			//本身不会触发页面更新
+			
+			/*
+			说明：
+			Vue 不能检测一下数组的变动：
+			利用 索引的值直接设置 数组项 this.arr[3] = "new";
+			修改数组的长度 this.arr.length = 10;
+			可以使用 $set 来解决这个问题
+			*/
+			
+			/*
+			作业：学生信息表：使用 table
+			学号 ，姓名，性别，籍贯，联系方式
+			5条数据
+			*/
+			
+		</script>
+	</body>
+</html>
