@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var obj1 = {"a":1,"b":2,"c":3};
+			var obj2 = {"c":"num","d":"test"};
+			//合并对象
+			
+			//特点：如果两个或多个数组的key值由相同的，那么后面的key对应的值会覆盖掉前面的值
+			var result = Object.assign(obj1,obj2);
+			console.log(result);//?a: 1,b: 2,c: "num",d: "test"
+		</script>
+	</body>
+</html>

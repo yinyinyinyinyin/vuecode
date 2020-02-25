@@ -1,0 +1,16 @@
+1.作业：学生信息表：使用 table
+			学号 ，姓名，性别，籍贯，联系方式
+			5条数据
+
+2.单击按钮，实现 学生信息表的排序功能
+
+
+3.写豆瓣的https://m.douban.com/tv/   移动端 下面的  国产剧、综艺节目、英美剧的页面渲染
+
+https://m.douban.com/rexxar/api/v2/subject_collection/tv_domestic/items?os=ios&callback=jsonp1&start=0&count=8&loc_id=108288&_=1582619884499
+https://m.douban.com/rexxar/api/v2/subject_collection/tv_variety_show/items?os=ios&callback=jsonp2&start=0&count=8&loc_id=108288&_=1582619884505
+https://m.douban.com/rexxar/api/v2/subject_collection/tv_american/items?os=ios&callback=jsonp3&start=0&count=8&loc_id=108288&_=1582619884507
+
+
+axios  获取数据
+请将数据拷贝出来，作为 数组保存

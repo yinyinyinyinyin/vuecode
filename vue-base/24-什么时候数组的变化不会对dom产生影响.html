@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="i in neirong">{{i}}</li>
+			</ul>
+			<button @click="addFun">添加</button>
+		</div>
+		<script type="text/javascript">
+			/*
+			vue不能检测一下情况数组的变动：
+			1.对数组的某个下标直接赋值 neirong[3] = "scss"
+			2.对数组更改它的长度  neirong.length =2
+			
+			
+			*/
+			
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					neirong:["js","css","html"]
+				},
+				methods:{
+					addFun:function(){
+						//this.neirong[3] = "scss";//不是响应性的
+						
+						//使用 $set 去添加或修改数组的值时，会触发 dom重新 render 渲染
+						this.$set(this.neirong,3,"scss");
+						
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

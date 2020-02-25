@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div v-for="(item,key) in stu">{{key}}:{{item}}</div>
+			<button @click="add">添加属性</button>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					stu:{
+						"id":1,
+						"name":"大娃"
+					}
+				},
+				methods:{
+					add:function(){
+						//this.stu["age"] = 18;
+						this.stu["name"] = "二娃";
+						//页面没发生任何变化，证明Vue不能检测对象属性的添加或删除
+						//注意：vue对对象原有属性的值进行修改是可以检测到的
+						//使用$set来完成添加操作
+						this.$set(this.stu,"age",18);
+						
+						console.log(this.stu);
+					}
+				}
+				
+			})
+		</script>
+	</body>
+</html>
