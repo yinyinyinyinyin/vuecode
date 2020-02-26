@@ -3,17 +3,39 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
+		<style type="text/css">
+			table tr td,table tr th{border:1px solid #000;}
+			table tr td span{padding-left:5px; padding-right:5px; background: #ccc;}
+		</style>
 		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
-		<div id="app"></div>
+		<div id="app">
+			<table>
+				<tr>
+					<th>商品名称</th>
+					<th>商品价格</th>
+					<th>商品数量</th>
+					<th>操作</th>
+				</tr>
+				<tr v-for = "(item,index) in phoneArr">
+					<td>{{item.name}}</td>
+					<td>{{item.price}}</td>
+					<td><span @click="decrement(item)">-</span>{{item.num}}<span @click="increment(item)">+</span></td>
+					<td><button>添加购物车</button></td>					
+				</tr>
+			</table>
+			
+		</div>
 		<script type="text/javascript">
 			/*
 			需求：1.渲染购物车列表
 			2.每种商品的加一、减一操作
-			3.添加购物车的功能
+			3.添加购物车的功能  难  判断 cartList里面有没有该条商品，
+			有这个商品，商品的数量加一，
+			没有商品，将该商品 push到cartList数组中
 			4.购物车中的商品删除
-			5.计算总价*/
+			5.计算总价 计算属性来实现*/
 			var vm = new Vue({
 				el:"#app",
 				data:{
@@ -24,6 +46,18 @@
 						{"name":"oppo","price":1080,num:1}
 					],
 					cartList:[]
+				},
+				methods:{
+					//减一
+					decrement:function(item){
+						if(item.num >=1){
+							item.num--;
+						}
+					},
+					//加一
+					increment:function(item){
+						item.num++;
+					}
 				}
 			})
 		</script>
