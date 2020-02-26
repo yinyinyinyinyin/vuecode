@@ -1,0 +1,59 @@
+1.钩子函数
+beforeCreate 创建前
+created      创建后
+beforeMount  挂载前
+mounted      挂在后
+beforeUpdate 更新前
+updated      更新后
+beforeDestroy 卸载前
+destroyed     卸载后
+
+2.条件渲染
+v-if
+v-if  v-else
+v-if v-else-if  v-else
+条件渲染可以使用于  template 模板  
+
+3.v-if  v-show的区别
+如果 经常切换选择 v-show
+不经常切换   v-if
+v-show 对css进行更改
+v-if   真实的添加或删除 dom节点
+
+4.v-for 循环 
+v-for="(item,index) in arr"
+v-for="(item,index) of arr"
+
+v-for  在写的时候  需要 在后面添加  :key 
+:key :key 不能够重复的，重复会报错，如果不写的话，会报警告，可以增加修改和删除的性能
+
+5.变异方法
+push  pop shift unshift splice sort reverse
+特点：都会对原数组产生影响，vue对其进行了二次封装
+
+非变异方法：filter  concat  slice 
+特点：对元素没有影响，使用 这个函数后会生成新的数组，vue没有对其进行二次封装
+
+6.数组的变动不能被vue所检测到,导致页面不会重新渲染
+第一种情况：使用 数组索引直接赋值  arr[10] = "test";
+第二种情况：更改数组的长度  arr.length = 5;
+
+解决办法：
+1. 使用 变异方法  
+2. 使用 this.$set
+
+7.对象什么情况下变动不能被vue所检测到,导致页面不会重新渲染
+	data：{
+		list:{
+			"a":10
+		}
+	}
+
+
+	this.list["b"] = 12;//检测不到 
+总结：对对象的新属性直接赋值是不会被检测到的
+解决办法：
+1. 使用 变异方法  
+2. 使用 this.$set
+
+8.对象合并  assign  
