@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id = "app">
+			<!--v-on 事件绑定  ，简写方式 @-->
+			<button v-on:click="add">{{num}}</button>
+			<button @click="add">{{num}}</button>
+			<!--v-on的事件绑定除了调用函数外还可以直接 写语句-->
+			<button @click="num++">{{num}}</button>
+			<!--绑定事件时调用函数并传参-->
+			<button @click="message('hello')">调用函数时传参-hello</button>
+			<button @click="message('hi')">调用函数时传参-hi</button>
+			<!--传参时 使用 $event-->
+			<button @click="msg('hi',$event)">调用函数时传参-$event</button>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					num:1
+				},
+				methods:{
+					//自加函数
+					add:function(){
+						this.num++;
+						
+					},
+					message:function(text){
+						console.log("函数已经调用，参数是："+text);
+					},
+					msg:function(text,event){
+						console.log("函数已经调用，参数是："+text);
+						console.log(event);
+						//点击按钮后更该按钮上 的文字
+						event.target.innerHTML = "修改后的文字";
+						
+						
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

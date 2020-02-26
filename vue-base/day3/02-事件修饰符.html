@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>事件修饰符</title>
+		<script src="../../js/vue.js"></script>
+		<style>
+			.b0{width: 50px; height: 50px; background-color: #FFA500; }
+			.b1{width: 100px; height: 100px; background-color: #ADD8E6;}
+			.b2{width: 200px; height: 200px; background-color: pink;}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			1.阻止单击事件继续传播  stop  阻止冒泡  ****
+			<div class="b1" @click="doThis1">
+				外面的div
+				<div class="b0" @click.stop="doThis">里面div</div>
+			</div>
+			
+			2.prevent 提交事件不再重载页面，拦截默认事件的  ***
+			<form @submit.prevent="onSubmit" method="get" action="http://www.baidu.com">
+				<input type="text" vlaue="" name="user" />
+				<button type="submit">提交</button>
+			</form>
+			
+			3.self 只有修饰符和点击事件绑定的元素与当前被点击的元素一致时才会触发  ****
+			<div class="b2" @click.self="doThis2">
+				3
+				<div class="b1" @click.self="doThis1">
+					2
+					<div class="b0" @click.self="doThis">1</div>
+				</div>
+			</div>
+			
+			4.capture 添加事件监听时，使用 捕获模式
+			<div class="b2" @click.capture="doThis2">
+				3
+				<div class="b1" @click.capture="doThis1">
+					2
+					<div class="b0" @click.capture="doThis">1</div>
+				</div>
+			</div>
+			
+			5.once 绑定的事件只执行一次
+			<button @click.once="doThis">绑定一次</button>
+			
+			6.passive 滚动事件的默认行为会立即触发
+			不会等到 onScroll完成
+			
+			7.修饰符可以串联  .stop.prevent
+			<a v-on:click.stop.prevent="doThis">修饰符串联</a>
+			8.只有修饰符   v-on:submit.prevent 表示只是阻止了表单提交缺没有绑定任何事件
+			<form v-on:submit.prevent></form>
+			
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					
+				},
+				methods:{
+					doThis:function(){
+						console.log("b1对应的函数运行了");
+					},
+					doThis1:function(){
+						console.log("b2对应的函数运行了");
+					},
+					doThis2:function(){
+						console.log("b3对应的函数运行了");
+					},
+					onSubmit:function(){
+						console.log("验证，并且提交的函数被触发了");
+					}
+				}
+				
+			})
+		</script>
+	</body>
+</html>
