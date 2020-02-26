@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--按键码 https://jingyan.baidu.com/article/fedf073780e16335ac8977a4.html-->
+			<!--需求：将名字都输入完后，点击回车按钮，再修改用户名-->
+			<!--
+			按键修饰符有： .enter .tab .delete (捕获“删除”和“退格”键) .esc
+			.space .up .down .left .right-->
+			输入用户名：
+			<input type="text" @keyup.enter="changeValue" value=""/>
+			<input type="text" @keyup.13="changeValue" value=""/>
+			{{username}}
+		</div>
+		<script type="text/javascript">
+			var vm =new Vue({
+				el:"#app",
+				data:{
+					username:"lili"
+				},
+				methods:{
+					changeValue:function(ev){
+						console.log(ev);
+						this.username = ev.target.value;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
