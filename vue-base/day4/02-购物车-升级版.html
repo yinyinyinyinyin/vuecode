@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			table tr td,table tr th{border:1px solid #000;}
+			table tr td span{padding-left:5px; padding-right:5px; background: #ccc;}
+		</style>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<table>
+				<tr>
+					<th>商品名称</th>
+					<th>商品价格</th>
+					<th>商品数量</th>
+					<th>操作</th>
+				</tr>
+				<tr v-for = "(item,index) in phoneArr">
+					<td>{{item.name}}</td>
+					<td>{{item.price}}</td>
+					<td><span @click="decrement(item)">-</span>{{item.num}}<span @click="increment(item)">+</span></td>
+					<td><button @click="addToCart(item)">添加购物车</button></td>					
+				</tr>
+			</table>
+			
+			<h2>购物车</h2>
+			<table>
+				<tr>
+					<th>商品名称</th>
+					<th>商品价格</th>
+					<th>商品数量</th>
+					<th>操作</th>
+				</tr>
+				<tr v-for = "(item,index) in cartList">
+					<td>{{item.name}}</td>
+					<td>{{item.price}}</td>
+					<td>{{item.num}}</td>
+					<td><button >删除商品</button></td>					
+				</tr>
+			</table><strong></strong>
+			
+		</div>
+		<script type="text/javascript">
+			/*
+			需求：1.渲染购物车列表
+			2.每种商品的加一、减一操作
+			3.添加购物车的功能  难  判断 cartList里面有没有该条商品，
+			有这个商品，商品的数量加一，
+			没有商品，将该商品 push到cartList数组中
+			4.购物车中的商品删除
+			5.计算总价 计算属性来实现*/
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					phoneArr:[
+						{"name":"iphone X","price":5000,num:1},
+						{"name":"三星手机","price":4040,num:1},
+						{"name":"小米","price":2000,num:1},
+						{"name":"oppo","price":1080,num:1}
+					],
+					cartList:[]//购物车中的商品
+				},
+				methods:{
+					//减一
+					decrement:function(item){
+						if(item.num >=1){
+							item.num--;
+						}
+					},
+					//加一
+					increment:function(item){
+						item.num++;
+					},
+					//添加购物车的函数
+					/*判断购物车中是否有该商品，没有该商品，将 item  push到 cartList
+					有该商品，需要 将商品的数量加一
+					addToCart
+					*/
+					addToCart:function(item){
+						console.log(82);
+						//将 item 的数据拷贝到 good中
+						var good = JSON.parse( JSON.stringify(item));
+						//判断购物车中是否有该商品
+						var hasOne = false;//购物车中没这种该商品
+						if(this.cartList.length){
+							console.log(87);
+							//遍历购物车中是否有该商品
+							for(var i = 0;i<this.cartList.length;i++){
+								//判断购物车中是否有这种商品的名称
+								if(good.name != this.cartList[i].name){
+									hasOne = false;
+								}else{
+									hasOne = true;
+									//更改 该种商品的数量，数量增加
+									this.cartList[i].num += good.num;
+									break;
+								}
+							}
+							
+							//判断是否存在该商品
+							if(!hasOne){
+								console.log(90);
+								this.cartList.push(good);
+							}
+							
+						}else{
+							console.log("购物车为空");
+							this.cartList.push(good);
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
