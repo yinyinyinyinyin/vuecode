@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>电话本</title>
+		<meta name="viewport" content="width=device-width" />
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{padding:0;margin:0;}
+			.myHeader{width: 100%; height: 50px; border-bottom: 1px solid #eee;
+			text-align: center; line-height: 50px; background: lightgreen;}
+			.myFooter{width: 100%; height: 50px; border-bottom: 1px solid #eee;
+			text-align: center; line-height: 50px; background: lightgreen;}
+			.myContent ul li{display: flex; flex-direction: row; flex-wrap: nowrap;
+			height:100px; background: lightgoldenrodyellow; margin-bottom: 10px;
+			line-height: 100px;
+			}
+			.myContent ul li span:nth-of-type(1){width: 10%;}
+			.myContent ul li span:nth-of-type(2){width: 30%;}
+			.myContent ul li span:nth-of-type(3){width: 40%;}
+			.myContent ul li span:nth-of-type(4){width: 20%;}
+			.myContent ul li span img{ width: 30px; height: 30px; margin-top:33px; }
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--3.将组件渲染到页面上-->
+			<my-header ></my-header>
+			<my-content :phone="phoneList"></my-content>
+			<my-footer ></my-footer>
+			
+		</div>
+		<script type="text/javascript">
+			//注意：在传参时尽量不要写大写，如果写了大写，
+			//那么在js中使用 驼峰式写法，在 html中必须更改为短横
+			//1.定义组件
+			//头
+			var myHeader = {
+				template:`<h2 class="myHeader">我的电话号码簿</h2>`
+			}
+			
+			//内容
+			var myContent = {
+				props:['phone'],
+				created:function(){
+					console.log(this.phone);
+					
+				},
+				template:`<div class="myContent">
+					<ul>
+						<li v-for="(item,index) in phone">
+						<span>{{item.id}}</span> 
+						<span>{{item.name}}</span>
+						<span>{{item.phone}}</span>
+						<span><img src="../img/phone.jpg"/></span>
+						</li>
+					</ul>
+				
+				</div>`
+			}
+			
+			//尾部
+			var myFooter={
+				template:`<div class="myFooter">版权：© 归web21班所有</div>`
+			}
+			/**************************************************/
+			
+			
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					phoneList:[//电话号码数据
+						{"id":1,"name":"斯琴高娃","phone":"13412340987"},
+						{"id":2,"name":"高晓松","phone":"13512340987"},
+						{"id":3,"name":"迪丽热巴","phone":"13612341234"},
+						{"id":4,"name":"韩红","phone":"13312340987"},
+						{"id":5,"name":"梁朝伟","phone":"15812340987"},
+					]
+				},
+				//2.引入组件
+				components:{
+					myHeader,
+					myContent,
+					myFooter
+				}
+			})
+		</script>
+	</body>
+</html>

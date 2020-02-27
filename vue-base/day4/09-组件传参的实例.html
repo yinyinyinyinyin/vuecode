@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>组件传参</title>
+		<script type="text/javascript" src="../js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<ball value="足球"></ball>
+			<ball value="篮球"></ball>
+			<ball value="乒乓球"></ball>
+			
+		</div>
+		<script type="text/javascript">
+			var ball = {
+				//父组件传参给子组件时，使用 props接收
+				props:['value'],//接收的父组件的传参
+				template:`<div>我喜欢:{{value}}</div>`
+				
+			};
+			
+			var vm = new Vue({
+				el:"#app",
+				data:{},
+				components:{
+					ball
+				}
+			})
+		</script>
+		
+	</body>
+</html>
