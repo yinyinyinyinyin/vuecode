@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.mytable{width: 400px; border-collapse: collapse;}
+			.mytable tr td,.mytable tr th{border:1px solid green;}
+		</style>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="stu" placeholder="请输入搜索的用户名"/>
+			<button @click="searchFun">搜索</button>
+			<table class="mytable">
+				<tr><th>学号</th>
+				<th>姓名</th>
+				<th>性别</th>
+				<th>籍贯</th>
+				<th>练习方式</th>
+				<th @click="ageSort" >年龄<span v-show="sortType && sortInit">↓</span><span v-show="!sortType && sortInit">↑</span></th></tr>
+				<tr v-for="(item,index) in searchStu" :key="item.id">
+					<!--:key 不能够重复的，重复会报错，如果不写的话，会报警告，可以增加修改和删除的性能-->
+					<td>{{item.id}}</td>
+					<td>{{item.name}}</td>
+					<td>{{item.sex}}</td>
+					<td>{{item.jiguan}}</td>
+					<td>{{item.phone}}</td>
+					<td>{{item.age}}</td>
+				</tr>
+			
+			</table>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					stu:'',
+					stuList:[
+						{"id":1,"name":"大春","sex":"男","jiguan":"青海","phone":"13412345678","age":20},
+						{"id":2,"name":"大熊","sex":"男","jiguan":"青海","phone":"13412345678","age":16},
+						{"id":3,"name":"小甜甜","sex":"女","jiguan":"青海","phone":"13412345678","age":28},
+						{"id":4,"name":"小花","sex":"女","jiguan":"青海","phone":"13412345678","age":18},
+						{"id":5,"name":"山山","sex":"男","jiguan":"青海","phone":"13412345678","age":25}
+					],
+					sortType:true,
+					sortInit:false,
+					searchStu:[
+						{"id":1,"name":"大春","sex":"男","jiguan":"青海","phone":"13412345678","age":20},
+							{"id":2,"name":"大熊","sex":"男","jiguan":"青海","phone":"13412345678","age":16},
+							{"id":3,"name":"小甜甜","sex":"女","jiguan":"青海","phone":"13412345678","age":28},
+							{"id":4,"name":"小花","sex":"女","jiguan":"青海","phone":"13412345678","age":18},
+							{"id":5,"name":"山山","sex":"男","jiguan":"青海","phone":"13412345678","age":25}
+					]
+				},
+				methods:{
+					//搜索
+					searchFun:function(){
+						this.searchStu =  this.stuList.filter(value=>{
+							return value.name.match(this.stu);
+						})
+					},
+					
+					ageSort:function(){
+						this.sortInit = true;
+						if(this.sortType){
+							this.stuList.sort((a,b)=>{
+								return a.age - b.age;
+							})
+						}else{
+							this.stuList.sort((a,b)=>{
+								return b.age - a.age;
+							})
+						}
+						//排序的状态需要取反
+						this.sortType = !this.sortType;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

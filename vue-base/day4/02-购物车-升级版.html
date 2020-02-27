@@ -34,12 +34,24 @@
 					<th>商品数量</th>
 					<th>操作</th>
 				</tr>
+				<template v-if="cartList.length >0">
 				<tr v-for = "(item,index) in cartList">
 					<td>{{item.name}}</td>
 					<td>{{item.price}}</td>
-					<td>{{item.num}}</td>
-					<td><button >删除商品</button></td>					
+					<td><span @click="decrement(item)">-</span>{{item.num}}<span @click="increment(item)">+</span></td>
+					<td><button @click="deleteGood(item)">删除商品</button></td>					
 				</tr>
+				<tr>
+					<td>总价：</td>
+					<td colspan="3">{{totalPrice}}</td>
+				</tr>
+				</template>
+				<template v-else>
+					<tr>
+						<td colspan="4">购物车为空</td>
+					</tr>
+					
+				</template>
 			</table><strong></strong>
 			
 		</div>
@@ -61,7 +73,18 @@
 						{"name":"小米","price":2000,num:1},
 						{"name":"oppo","price":1080,num:1}
 					],
-					cartList:[]//购物车中的商品
+					cartList:[],//购物车中的商品
+				},
+				//计算属性
+				computed:{
+					//总价
+					totalPrice:function(){
+						var total = 0;
+						for(var i = 0;i<this.cartList.length;i++){
+							total += this.cartList[i].price * this.cartList[i].num;
+						}
+						return total;
+					}
 				},
 				methods:{
 					//减一
@@ -80,13 +103,11 @@
 					addToCart
 					*/
 					addToCart:function(item){
-						console.log(82);
 						//将 item 的数据拷贝到 good中
 						var good = JSON.parse( JSON.stringify(item));
 						//判断购物车中是否有该商品
 						var hasOne = false;//购物车中没这种该商品
 						if(this.cartList.length){
-							console.log(87);
 							//遍历购物车中是否有该商品
 							for(var i = 0;i<this.cartList.length;i++){
 								//判断购物车中是否有这种商品的名称
@@ -99,18 +120,29 @@
 									break;
 								}
 							}
-							
 							//判断是否存在该商品
 							if(!hasOne){
 								console.log(90);
 								this.cartList.push(good);
 							}
-							
 						}else{
 							console.log("购物车为空");
 							this.cartList.push(good);
 						}
+					},
+					//删除商品
+					deleteGood:function(item){
+						//遍历购物车
+						for(var i = 0; i<this.cartList.length;i++){
+							//找到该商品
+							if(item.name == this.cartList[i].name){
+								//将该商品从 数组中剔除掉
+								this.cartList.splice(i,1);
+								break;
+							}
+						}
 					}
+					
 				}
 			})
 		</script>
