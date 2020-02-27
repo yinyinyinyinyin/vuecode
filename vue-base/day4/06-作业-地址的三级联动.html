@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js"></script>
+		<script src="city.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			省：
+			<select v-model="provinceName">
+				<option v-for="(item,index) in provinces" :value="item.name">
+					{{item.name}}
+				</option>
+			</select>
+			市：
+			<select v-model="cityName">
+				<option v-for="(item,index) in citys" :value="item.name">
+					{{item.name}}
+				</option>
+			</select>
+			区：
+			<select v-model="areaName">
+				<option v-for="(item,index) in areas" :value="item">
+					{{item}}
+				</option>
+			</select>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					provinces:citys,//将数据赋值给了省
+					provinceName:"北京市",
+					citys:[],//该省下面的市
+					cityName:'北京市',
+					areas:[],//该市下面的所有区
+					areaName:'东城区'
+				},
+				watch:{
+					//当省的选择发生变化时，市的数据需要重新渲染
+					provinceName(newValue){
+						console.log("新"+newValue);
+						for(var i = 0 ;i<this.provinces.length; i++){
+							//判断该省下面的所有的市
+							if(newValue === this.provinces[i].name){
+								//将该省下面的市赋值给 citys
+								this.citys = this.provinces[i].city;
+								//将 所在省的第一个市的名字赋值给cityName
+								this.cityName = this.citys[0].name;
+								
+								//将该省下面的第一个市的第一个区进行赋值
+								this.areaName = this.citys[0].area[0];
+								break;
+							}
+						}
+					},
+					//当市的选择发生变化时，对区的值重新渲染
+					cityName(newValue){
+						//遍历该省下面的所有市
+						for(var i = 0 ;i<this.citys.length;i++){
+							//找到了该市
+							if(newValue === this.citys[i].name){
+								//获取该市下面的所有区
+								this.areas = this.citys[i].area;
+								//给默认区名赋值
+								this.areaName = this.areas[0];
+								break;
+							}
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
