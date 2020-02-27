@@ -25,6 +25,8 @@
 	<body>
 		<div id="app">
 			<!--3.将组件渲染到页面上-->
+			注意，如果组件定义使用的是驼峰式写法，
+			直接在 DOM (即非字符串的模板) 中使用时只有 kebab-case 是有效的。
 			<my-header ></my-header>
 			<my-content :phone="phoneList"></my-content>
 			<my-footer ></my-footer>
@@ -39,6 +41,17 @@
 				template:`<h2 class="myHeader">我的电话号码簿</h2>`
 			}
 			
+			//列表孙子，属于myContent的子节点
+			var myitem = {
+				props:['i'],
+				template:`<li >
+							<span>{{i.id}}</span> 
+							<span>{{i.name}}</span>
+							<span>{{i.phone}}</span>
+							<span><img src="../img/phone.jpg"/></span>
+						</li>`
+			}
+			
 			//内容
 			var myContent = {
 				props:['phone'],
@@ -48,24 +61,21 @@
 				},
 				template:`<div class="myContent">
 					<ul>
-						<li v-for="(item,index) in phone">
-						<span>{{item.id}}</span> 
-						<span>{{item.name}}</span>
-						<span>{{item.phone}}</span>
-						<span><img src="../img/phone.jpg"/></span>
-						</li>
+						<myitem v-for="(item,index) in phone" :i="item"></myitem>
 					</ul>
-				
-				</div>`
+				</div>`,
+				//在循环渲染时，需要传一条记录到子组件，也就是传item，这样子更方便
+				components:{
+					myitem
+				}
 			}
 			
 			//尾部
 			var myFooter={
 				template:`<div class="myFooter">版权：© 归web21班所有</div>`
 			}
+			
 			/**************************************************/
-			
-			
 			var vm = new Vue({
 				el:"#app",
 				data:{

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="../js/vue.js"></script>
+	</head>
+	<body>
+		建议：不熟练的同学请起名字的时候只使用小写字母
+		
+		js里使用 驼峰命名，那么在html中 使用短横 ;除了template里面的html
+		<div id="app">
+			<base-url :test-url="url"></base-url>
+		</div>
+		<script type="text/javascript">
+			//组件
+			var BaseUrl = {
+				props:['testUrl'],
+				template:`<div>网站的网址是：{{testUrl}}</div>`
+			}
+			
+			
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					message:"hello",
+					url:'http://www.baidu.com',
+					name:"百度",
+					
+				},
+				components:{
+					BaseUrl
+				}
+			})
+		</script>
+	</body>
+</html>
