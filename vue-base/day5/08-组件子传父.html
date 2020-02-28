@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			.child{border:3px dotted blueviolet;}
+			.parent{background: #90EE90; height:200px;}
+		</style>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			<mybtn @myclick = "clickFun"></mybtn>
+			<hr/>
+			<div class="parent">
+			父组件的值message：{{message}}
+			</div>
+		</div>
+		<script type="text/javascript">
+			//自定义事件
+			//子传父的过程
+			/*
+			1.在子组件的函数里去主动触发一个事件，事件名称自己定义  ，并且在主动触发时会传递一个参数  this.$emit("myclick","newvalue");
+			2.在html中 调用 该组件时，事件名称需与主动触发的事件名称一致
+			
+			<mybtn @myclick = "clickFun"></mybtn>
+			
+			3.父组件的clickFun 事件，可以接收从子组件传过来的值
+			*/
+			//1.定义组件
+			var mybtn = {
+				template:`<div class="child" @click="clickbtn">子组件点击-改变父组件的值</div>`,
+				methods:{
+					clickbtn:function(){
+						console.log("子组件的函数被触发了");
+						this.$emit("myclick","newvalue");//$emit 主动触发
+					}
+				}
+			}
+			/******************************************************/
+			var vm = new Vue({
+				el:"#app",
+				data:{message:'我是父组件的数据'},
+				components:{mybtn},
+				methods:{
+					clickFun:function(value){
+						console.log("父组件的函数触发了");
+						console.log("从子组件传过来的值",value);
+						this.message = value;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
