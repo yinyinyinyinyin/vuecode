@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="../js/vue.js">
+			
+		</script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="message" />{{message}}
+			
+			
+			<child v-model="msg"></child>
+			<hr>
+			父组件：{{msg}}
+		</div>
+		<script type="text/javascript">
+			//直接在组件上写 v-model是不起作用
+			var child = {
+				props:['value'],
+				template:`<div>
+				我是子组件
+				<input type="text" v-bind:value="value" @input="$emit('input',$event.target.value)"/>
+				</div>`
+			}
+			
+			
+			/*************************************/
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					msg:"hi vue",
+					message:'hello'
+				},
+				components:{
+					child
+				}
+			})
+		</script>
+	</body>
+</html>

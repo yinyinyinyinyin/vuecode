@@ -1,0 +1,9 @@
+1.将豆瓣的作业标题 改写 为 插槽的形式
+
+2.http://www.51houniao.com/wx/customer/classic/index.html 
+将候鸟旅行的首页采用 组件的形式渲染
+swiper https://www.swiper.com.cn/
+
+3.将vue的实例进行复习
+
+4.请预习(选做)

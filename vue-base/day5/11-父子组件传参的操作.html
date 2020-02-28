@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="../js/vue.js">
+			
+		</script>
+		<style type="text/css">
+			.child{width: 100%; height:400px; background: lightblue; }
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div>
+				<input type="button" value="我是父组件按钮，点击显示子组件" @click="changeType" />
+			</div>
+			<hr/>
+			<child v-show="isshow" @childshow="isShowFun"></child>
+		</div>
+		<script type="text/javascript">
+			//需求：点击父组件的按钮，显示子组件；点击子组件的印象按钮，将子组件隐藏
+			var child = {
+				template:`<div class="child">
+				我是子组件，我在蓝色的海洋里
+				<button @click="childFun">点击按钮，隐藏子组件</button>
+				</div>`,
+				methods:{
+					childFun:function(){
+						//需要将 值传递给父节点
+						this.$emit("childshow",false);
+					}
+				}
+			}
+			
+			
+			/****************************************************/
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					isshow:false
+				},
+				components:{
+					child
+				},
+				methods:{
+					changeType:function(){
+						this.isshow = true;
+					},
+					isShowFun:function(type){
+						console.log("父节点接收的数据：",type);
+						this.isshow = type;
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

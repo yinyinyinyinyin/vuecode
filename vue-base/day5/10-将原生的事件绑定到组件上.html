@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			.child{border:3px dotted blueviolet;}
+			.parent{background: #90EE90; height:200px;}
+		</style>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<mybtn @myclick = "clickFun" @mouseover.native="mouseoverFun"></mybtn>
+			<hr/>
+			<div class="parent">
+			父组件的值message：{{message}}
+			</div>
+		</div>
+		<script type="text/javascript">
+			//.native 将事件写在 组件上时，想要触发，必须添加  .native 修饰符
+			var mybtn = {
+				template:`<div class="child" @click="clickbtn">子组件点击-改变父组件的值</div>`,
+				methods:{
+					clickbtn:function(){
+						console.log("子组件的函数被触发了");
+						this.$emit("myclick","newvalue");//$emit 主动触发
+					}
+				}
+			}
+			/******************************************************/
+			var vm = new Vue({
+				el:"#app",
+				data:{message:'我是父组件的数据'},
+				components:{mybtn},
+				methods:{
+					clickFun:function(value){
+						console.log("父组件的函数触发了");
+						console.log("从子组件传过来的值",value);
+						this.message = value;
+					},
+					mouseoverFun:function(){
+						console.log("鼠标移上的事件触发了");
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
