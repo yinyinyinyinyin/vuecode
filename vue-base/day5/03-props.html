@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="../js/vue.js">
+			
+		</script>
+	</head>
+	<body>
+		<div id = "app">
+			<child :bbb = "num"></child>
+			<child :bbb = "mystr"></child>
+			<child :bbb = "myobj"></child>
+		</div>
+		<script type="text/javascript">
+			//组件 分三步走：先定义，在注册，在使用
+			//props接收的数据，可以不用 [], 而是使用对象
+			var child = {
+				props:['bbb'],//需求：属性目前如果只允许接收一种类型的参数
+				template:`<div>我是孩子，我要听话
+				<h2>传过来的参数是：{{bbb}}</h2>
+				</div>`
+			};
+			/***************************************/
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					num:12,
+					mystr:'hello',
+					myobj:{"tt":"aaaaaaaaaaa"}
+					
+				},
+				components:{
+					child
+				}
+			})
+		</script>
+	</body>
+</html>

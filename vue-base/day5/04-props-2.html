@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>props类型验证</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!---3.使用-->
+			<child  :title = "mytitle"
+			:likes = "likes"
+			:ispublished = "ispublished"
+			:commentids = "commentids"
+			:author = "author"
+			></child>
+			
+			<!-- <child  :title = "title1"></child> 
+			报错，因为我们在21行对 title做了格式验证，它需要一个 string 但是你给了一个number
+			-->
+		</div>
+		<script type="text/javascript">
+			//1.定义组件
+			var child = {
+				props:{
+					'title':String,
+					'likes': Number,
+					'ispublished': Boolean,
+					'commentids': Array,
+					'author': Object,
+				},
+				template:`<div>组件,从父组件传过来的参数是：{{title}}
+				<ul>
+				<li>{{likes}}</li>
+				<li>{{ispublished}}</li>
+				<li>{{commentids}}</li>
+				<li>{{author}}</li>
+				</ul>
+				
+				</div>`
+			}
+			
+			
+			
+			/***************华丽分割线********************/
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					mytitle:'三生三世',
+					title1:123,
+					likes:666,
+					ispublished:true,
+					commentids:[1,2,3],
+					author:{"id":"88","name":"谭明"}
+				},
+				components:{
+					//2.注册
+					child
+				}
+			})
+		</script>
+	</body>
+</html>
