@@ -42,7 +42,7 @@
 				//axios文档  https://www.kancloud.cn/yunye/axios/234845  
 				mounted:function(){
 					//国产
-					axios.get('zuoye/dianshiju.json').then((data)=>{//成功获取数据的回调函数
+					axios.get('../zuoye/dianshiju.json').then((data)=>{//成功获取数据的回调函数
 						console.log(data);
 						this.guochanList = data.data.subject_collection_items;
 					}).catch((error)=>{//失败的回调函数

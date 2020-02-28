@@ -1,0 +1,61 @@
+组件：
+1.组件作用：将复用的部分进行封装，可以直接写组件名进行调用，
+可以减少代码，优化性能
+
+2.组件的分类： 全局组件  和局部组件
+全局组件和局部组件的作用域不一样
+全局组件  就是在任何地方都可以调用
+局部组件 必须在某个 vue实例里进行注册才可以调用
+
+全局组件写法
+Vue.component('组件名',{
+	组件属性
+})
+
+局部组件的写法
+局部组件定义
+var jubu = {
+	template:`<div>局部组件</div>`
+}
+局部组件的调用,局部组件的注册
+var vm = new Vue({
+	el:'#app',
+	data:{},
+	component:{
+		jubu
+	}
+})  
+
+3.组件需要注意的地方：
+	a.组件中的data 必须写 function  return
+	var jubu = {
+		data:function(){
+			return {
+				mag:'hello'
+			}
+		}
+		template:`<div>局部组件</div>`
+	}
+	
+	b.组件在定义名字和传参时尽量使用小写  *****
+	注意：js里面使用驼峰，html中使用短横  ，template中使用 驼峰
+	
+	c.组件有且只有一个根节点
+	
+	d.组件必须先定义才能够调用
+	
+4.	组件传参
+	a.调用组件时，使用 v-bind:(简写:)    进行传参
+	传递的是常量时不需要 :
+	var num1 = 10;
+	<ball value="足球" :test="num1"  text="hello"></ball>
+	
+	b.在定义的组件里面props接收  
+	
+	var ball = {
+		props:['test','text']
+	}
+	
+	c.传参时的名称和接收时的名称要一致
+	
+5.  多级组件
