@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.foo{width: 200px; height: 200px; background: blue; }
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div id="content">
+				<h1>vue虚拟dom</h1>
+				<span></span>
+				文本
+			</div>
+			
+			<basedialog></basedialog>
+		</div>
+		<script type="text/javascript">
+			//虚拟dom:在内存定义一个变量，来保存页面上的一个节点内容，
+			//虚拟dom操作不需要去真实的操作dom节点,而是操作的内存变量的属性，所以，虚拟dom的性能会更优
+			//将上面的dom渲染成js的虚拟dom
+			/*
+			var app = {
+				id:'app',
+				tagName:'div',
+				children:[
+					{
+						id:'content',
+						tagName:'div',
+						children:[
+							{
+								tagName:'h1',
+								innerHtml:'vue虚拟dom'
+							},{
+								
+							},{
+								
+							}
+						]
+					}
+				]
+			}
+			
+			对于虚拟dom，需要使用 diff算法，去计算究竟哪个节点的那个属性发生了变化，再统一一次渲染到真实的dom上
+			
+			*/
+		   
+		   //下面，使用 render去创建一个 dom节点
+			//定义组件
+			
+			/*
+			{
+				class:{'foo':true,'bar':false},
+				style:{
+					width:'200px',
+					height:'200px',
+					background:'green'
+				},
+				attrs:{
+					'id':'mytest'
+				},
+				
+			}
+			*/
+			Vue.component( 'basedialog', {
+				render:function(h){//渲染函数
+					return h('div',
+					{
+						class:{'foo':true,'bar':false},
+						style:{
+							width:'200px',
+							height:'200px',
+							background:'green'
+						},
+						attrs:{
+							'id':'mytest'
+						},
+						
+					}
+					,'div的内容');
+					
+				}
+			}) ;
+			
+			
+			/*************************/
+			var vm = new Vue({
+				el:'#app',
+				data:{}
+			})
+			
+		</script>
+	</body>
+</html>

@@ -25,7 +25,24 @@
 				componentUpdated(el,binding){
 					console.log(el);
 					console.log(binding);
+					var searchValue = binding.value.searchValue;//输入的想要查询的字符串
+					var dataSource = binding.value.message;//原字符串
 					
+					if(dataSource.indexOf(searchValue) == -1){
+						el.innerHTML = dataSource;//没找到该字符
+					}
+					//判断是否有输入数据
+					if(searchValue.length){//有输入搜索数据
+						//字符串分割
+						var arr = dataSource.split(searchValue);
+						console.log(arr);
+						//将查询的字母变红
+						var sp = `<span style="color:red">${searchValue}</span>`;
+						//将分割的数组再进行连接
+						el.innerHTML = arr.join(sp);
+					}else{
+						el.innerHTML = dataSource;
+					}
 					
 					
 				}
