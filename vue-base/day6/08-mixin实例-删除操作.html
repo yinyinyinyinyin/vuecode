@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="//unpkg.com/element-ui@2.13.0/lib/index.js"></script>
+		<style type="text/css">
+			@import url("//unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css");
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			父组件渲染列表：
+			<ul>
+				<li v-for="(item,index) in books">{{item.id}} -- {{item.name}}
+				<button @click="post(books,index)">删除</button>
+				</li>
+			</ul>
+			
+			<hr/>
+			子组件渲染列表：
+			<childlist></childlist>
+		</div>
+		<script type="text/javascript">
+			/********************混入***************************/
+			//mixin作用：如果多个组件都使用到了同样的数据、功能、函数、方法、钩子，我们需要将这部分公共的地方封装成mixin
+			var mixindel = {
+				methods:{
+					//arr我们的原数组
+					//将要删除的元素的下标
+					post:function(arr,index){
+						//删除某个数组中的元素
+						arr.splice(index,1);
+						//删除成功的提示
+						this.$message({
+						    message: '恭喜你，这是一条成功消息',
+						    type: 'success',
+							duration:500
+						});
+						
+					}
+				}
+			}
+			/************************组件***********************/
+			//定义子组件
+			var childlist = {
+				data:function(){
+					return {
+						balls:[
+							{"id":"1","name":"篮球"},{"id":"2","name":"足球"},
+							{"id":"3","name":"羽毛球"},{"id":"4","name":"乒乓球"}
+						]
+					}
+				},
+				template:`<ul><li v-for="(item,index) in balls">{{item.id}} -- {{item.name}}
+				<button @click="post(balls,index)">删除</button>
+				</li></ul>`,
+				mixins:[mixindel],
+				
+				
+				
+			} 
+			/*******************VUE根节点********************/
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					books:[
+						{"id":1,"name":"javascript"},{"id":2,"name":"css"},{"id":3,"name":"html"}
+					]
+				},
+				mixins:[mixindel],//定义  注册
+				components:{
+					childlist
+				},
+				
+				
+				
+			})
+		</script>
+	</body>
+</html>

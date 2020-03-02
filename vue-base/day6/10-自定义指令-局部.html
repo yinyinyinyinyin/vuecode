@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			注意：需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令
+			指令v-if  v-else v-for v-bind v-show v-html v-on v-model v-once
+			<!-- <input type="text" value="" autofocus="autofocus" /> -->
+			使用自定义指令模拟自动获取文本框焦点的功能
+			<input type="text"  v-basefocus/>
+			
+		</div>
+		<script type="text/javascript">		
+			/********************************************/
+			var vm = new Vue({
+				el:"#app",
+				data:{},
+				directives:{
+					//局部的自定义指令
+					'basefocus':{
+						inserted(el){
+							console.log(el); 
+							el.focus();
+							el.style.border="1px solid green";
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

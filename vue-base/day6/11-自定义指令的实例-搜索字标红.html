@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#con{width: 500px; height: 300px; border:2px dotted skyblue; padding: 10px;}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h2>文章内容：</h2>
+			<input type="text" v-model="searchValue"/>
+			<div id="con" v-searchword="{searchValue:searchValue,message:message}">{{message}}</div>
+		</div>
+		<script type="text/javascript">
+			//需求：查找到某个字符或语句，将文章中找到的地方标红
+			/****************全局自定义指令*************************************/
+			Vue.directive("searchword",{
+				inserted(el){
+					console.log("自定义指令的inserted钩子触发了");
+				},
+				//组件更新后自动触发的钩子函数
+				componentUpdated(el,binding){
+					console.log(el);
+					console.log(binding);
+					
+					
+					
+				}
+			})
+			
+			
+			/******************vue实例************************/
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					message:`北京市人民政府新闻办公室今日（3月2日）召开第三十八场疫情防控新闻发布会。摄 新京报记者 李凯祥
+					肖飒表示北京市纪委监委已于2月26日成立调查组，工作重点围绕黄某某如何进京、如何进社区开展调查，核查疫情防控工作全过程是否存在漏洞。
+					针对黄某某如何进京，肖飒表示，大广高速求贤检查站辅警在黄某某一行人进京时，对其进行测温检查，测温显示正常，工作人员并未按要求对进京人员进行再次身份审核。
+					针对黄某某如何进入社区，肖飒表示，新怡家园小区地下车库入口为自动抬杆，只要录入系统的车辆，无需人员测温，车辆即可进入。就此，小区地下车库的不规范测温行为，导致黄某某一行人开车进入车库。`,
+					searchValue:''//将要查询的字符串
+				}
+			})
+		</script>
+	</body>
+</html>
