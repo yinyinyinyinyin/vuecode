@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>混入</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div id="app">
+			{{msg}}
+			<button @click="test">调用mixin中的方法</button>
+			<child></child>
+			
+		</div>
+		<script type="text/javascript">
+			//全局mixin的定义
+			Vue.mixin({
+				data:function(){return {msg:'hello'}},
+				mounted:function(){console.log('mixin的挂载后钩子运行了');},
+				computed:{},
+				methods:{
+					test:function(con){console.log('mixin中的test方法被调用了',con);}
+				}
+			})
+			Vue.component('child',{
+				data:function(){return {con:'hihi'}},
+				template:`<div>我是一个组件，我可以调用mixin的值{{msg}}
+				<button @click="test(con)">子组件调用mixin</button>	
+					</div>`,
+			})
+			
+			/*****************************************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+			})
+			//全局mixin
+			/*
+			mixin 混入，提供了一种灵活的方法，来分发vue组件中的可复用功能
+			分为全局mixin和局部xinmi
+			mixin中的属性，可以被根节点调用，也可以被其他组件调用
+			mixin中的代码谁使用了，谁copy了一份过来，对原来的mixin数据没有影响
+			使用场景：一般公共类型的方法和属性，我们可以放到 mixin中
+			*/
+		</script>
+	</body>
+</html>
