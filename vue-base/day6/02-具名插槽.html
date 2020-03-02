@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>插槽</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<zhuban>
+				<span slot="center">cpu</span>
+				<span slot="io">显卡</span>
+				<span slot="io">声卡</span>
+				<span slot="io">光驱</span>
+			</zhuban>
+		</div>
+		<script type="text/javascript">
+			//<slot></slot> 插槽
+			/*
+			将调用组件的子级节点解析到 <slot></slot> 所对应的位置
+			*/
+		   
+		   //具名插槽，就是给 插槽起一个名字，让代码解析时，按照名字解析到相应的位置
+			var zhuban = {
+				template:`<div>
+				主机箱，零件包括：
+				<ul>
+					<li>io：<slot name="io"></slot></li>
+					<li>大脑：<slot name="center"></slot></li>
+				</ul>
+				</div>`
+			}
+			
+			/**********************************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				components:{
+					zhuban
+				}
+			});
+		</script>
+	</body>
+</html>

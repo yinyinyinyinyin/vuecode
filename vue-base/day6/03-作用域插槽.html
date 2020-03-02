@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>作用域插槽</title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<currentuser>
+				{{user.firstName}}
+			</currentuser>
+		</div>
+		<script type="text/javascript">
+			//创建子组件
+			//作用域插槽：可以叫做 带数据的插槽，
+			/*
+			currentuser 组件里面的变量在 vue 的根节点上并没有定义
+			*/
+			var currentuser = {
+				data:function(){
+					return {
+						user:{
+							firstName:'laura',
+							lastName:'Yin'
+						}
+					}
+				},
+				template:`<div>我是子组件
+					<slot></slot>
+				</div>`
+			}
+			
+			/**************************************/
+			var vm = new Vue({
+				el:"#app",
+				data:{},
+				components:{
+					currentuser
+				}
+			})
+		</script>
+	</body>
+</html>
