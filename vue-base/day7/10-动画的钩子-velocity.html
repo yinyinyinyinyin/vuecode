@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.box{width: 100px; height: 100px; background: green;}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="show=!show">显示或隐藏</button>
+			<transition v-on:before-enter="beforeEnter"
+			v-on:enter="enter"
+			v-on:before-leave="beforeLeave"
+			v-on:leave="leave"
+			>
+				<div class="box" v-if="show">sfdsf</div>
+			</transition>
+			
+		</div>
+		<script type="text/javascript">
+			//查看具体的动画显示成什么样子 https://daneden.github.io/animate.css/ 
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					show:true
+				},
+				methods:{
+					beforeEnter:function(el){
+						console.log('动画进入前触发');
+						el.style.opacity = 0;//初始透明度
+						el.style.transformOrigin="left";//初始的基点
+					},
+					//进入时触发
+					enter:function(el,done){
+						Velocity(el,{opacity:1,fontSize:'30px'},{duration:500});
+						Velocity(el, { fontSize: '1em' }, { complete: done })
+						
+					},
+					//离开前的动画
+					beforeLeave:function(el){
+						console.log('动画离开前触发');
+						el.style.translateX = '0px';
+						el.style.rotateZ = '0deg';
+					},
+					leave:function(el,done){
+						//Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+						Velocity(el,{translateX:'15px',rotateZ:'50deg'},{duration:1000});
+						// Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+						//       Velocity(el, {
+						//         rotateZ: '45deg',
+						//         translateY: '30px',
+						//         translateX: '30px',
+						//         opacity: 0
+						//       }, { complete: done })
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
