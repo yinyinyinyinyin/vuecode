@@ -17,16 +17,23 @@
 			<router-view>      </router-view>
 		</div>
 		<script type="text/javascript">
-			//vue的路由，表示通过不同的路由的url，将对应的组件解析到 路由出口，显示在页面上，
-			//对于单页面开发，路由跳转时，页面不会重新刷新，性能更佳！
-			//Vue的路由有两种 ，一种是hash 值来实现的 ，hash值实现的路由会在具体路由的前面加#，
-			//一种是 history来实现的
 			/************1.常创建两个组件，相当于要显示的两个页面*********/
 			var main = {
-				template:`<div>主页</div>`
+				template:`<div>主页</div>`,
+				mounted:function(){
+					console.log(this.$router);//在组件里可以使用 this.$router 来访问路由信息
+				}
 			};
 			var about = {
-				template:`<div>关于我们</div>`
+				template:`<div>关于我们
+				<button @click="goMain">返回主页</button>
+				</div>`,
+				methods:{
+					goMain:function(){
+						//push 页面跳转
+						this.$router.push('/test');
+					}
+				}
 			}
 			/*********2.创建路由配置表***********************/
 			var routes = [

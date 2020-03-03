@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动态路由</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="(item,index) in movieArr">
+					<router-link :to="'/movieitem/'+item.id">{{item.title}} </router-link>
+				</li>
+			</ul>
+			
+			<hr/>
+			<router-view></router-view>
+		</div>
+		<script type="text/javascript">
+			/***********1.详情页的组件************/
+			var movieitem = {
+				template:`<div>
+					<h2>电影内容</h2>
+					<div>电影的id是：{{$route.params}}</div>
+				</div>`,
+				mounted:function(){//组件只挂载一次
+					console.log(this.$route);// 属性：fullPath(全路径)  params(参数)  query(可以用做查询传参) 
+					console.log(this.$router);//属性： options.routes 
+				},
+				watch:{
+					'$route'(to,from){
+						console.log(from);
+						console.log(to);
+					}
+				}
+			}
+			/**********2.路由表**********************/
+			//path:"/movieitem/:movieid"    /movieitem/:参数名 用来传递参数的
+			var routes = [
+				{path:"/movieitem/:movieid",component:movieitem}
+			];
+			/****3.配置*************/
+			var router = new VueRouter({
+				routes:routes
+			})
+			/**********new  Vue************/
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					movieArr:[
+						{"id":1,"title":"调酒师","date":"2020-03-13"},
+						{"id":2,"title":"危险记忆","date":"2020-03-20"},
+						{"id":3,"title":"恋上美人鱼","date":"2020-03-20"}
+					]
+				},
+				//4.注册
+				router:router
+			})
+		</script>
+	</body>
+</html>
