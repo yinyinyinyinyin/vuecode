@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			{{num}}
+			
+			使用过滤器：
+			{{num | money('￥')}}
+			{{num | money('$')}}
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					num:12300
+				},
+				filters:{
+					money:function(value,arg){
+						console.log('过滤器已经调用了');
+						console.log(value);
+						console.log(arg);//过滤器中的参数
+						return arg + value;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
