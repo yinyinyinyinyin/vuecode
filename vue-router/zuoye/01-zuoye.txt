@@ -1,0 +1,12 @@
+1. https://www.jvhv.com/wap/  加减号 ，列表  本周最受欢迎top5列表
+点进去还有内容页渲染
+
+列表页数据
+https://www.jvhv.com/siteindex.php/Index/Index.html
+CourseTop5
+
+内容页数据：
+https://www.jvhv.com/siteindex.php/Lesson/Detail.html  
+post
+ {pro_id: 141,
+ fid:''}
