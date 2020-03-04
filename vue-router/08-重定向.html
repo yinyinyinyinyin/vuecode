@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--5.插入路由，相当于 nav 中的a标签-->
+			<router-link to="/test">主页</router-link>
+			<router-link to="/about">关于我们</router-link>
+			<!--6.路由到的组件渲染的具体位置,l路由的出口-->
+			<router-view>      </router-view>
+		</div>
+		<script type="text/javascript">
+
+			/************1.常创建两个组件，相当于要显示的两个页面*********/
+			var main = {
+				template:`<div>主页</div>`
+			};
+			var about = {
+				template:`<div>关于我们</div>`
+			}
+			/*********2.创建路由配置表***********************/
+			var routes = [
+				//重定向 redirect
+				{"path":"/",redirect:'/test'},
+				//路径           要显示的组件
+				{"path":"/test","component":main,"alias":"/main"},//alias 别名
+				{"path":"/about","component":about}
+				
+			];
+			
+			/**********3.配置路由表,创建新的路由表对象****************************/
+			var router = new VueRouter({
+				routes:routes
+			})
+			
+			/************创建新的vue实例****************************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				//4.注册到根组件
+				router:router
+			})
+		</script>
+	</body>
+</html>
