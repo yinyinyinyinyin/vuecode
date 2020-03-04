@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--5.插入路由，相当于 nav 中的a标签-->
+			<!--router-link和a标签的区别 router-link 不会整个页面刷新，a会    -->
+			<router-link to="/test">主页</router-link>
+			<router-link to="/about">关于我们</router-link>
+			<!-- <a href="/test" >关于我们 a</a> -->
+			<!--6.路由到的组件渲染的具体位置,l路由的出口-->
+			<router-view>      </router-view>
+		</div>
+		<script type="text/javascript">
+			//vue的路由，表示通过不同的路由的url，将对应的组件解析到 路由出口，显示在页面上，
+			//对于单页面开发，路由跳转时，页面不会重新刷新，性能更佳！
+			//Vue的路由有两种 ，一种是hash 值来实现的 ，hash值实现的路由会在具体路由的前面加#，
+			//一种是 history来实现的
+			/************1.常创建两个组件，相当于要显示的两个页面*********/
+			var main = {
+				template:`<div>主页</div>`
+			};
+			var about = {
+				template:`<div>关于我们</div>`
+			}
+			/*********2.创建路由配置表***********************/
+			var routes = [
+				//路径           要显示的组件
+				{"path":"/test","component":main},
+				{"path":"/about","component":about}
+				
+			];
+			
+			/**********3.配置路由表,创建新的路由表对象****************************/
+			var router = new VueRouter({
+				mode:'history',//history模式需要 后台支持，使用hash模式会多一些，缺点：长的不好看
+				routes:routes
+			})
+			
+			/************创建新的vue实例****************************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				//4.注册到根组件
+				router:router
+			})
+		</script>
+	</body>
+</html>
