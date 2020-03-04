@@ -1,0 +1,12 @@
+1.电脑上是否已经安装了 node
+版本号需要在8.9以上
+node -v 
+注意：如果 npm 安装出现问题，请使用淘宝镜像
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+
+2.安装cli 脚手架
+npm install -g @vue/cli
+或
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+cnpm install -g @vue/cli
