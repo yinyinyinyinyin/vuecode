@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--5.插入路由信息-->
+			<router-link to="/main">首页</router-link>
+			<router-link to="/about">关于我们</router-link>
+			
+			<!--6.路由出口-->
+			<router-view></router-view>
+		</div>
+		<script type="text/javascript">
+			//1.组件
+			var main = {
+				template:`<div>主页</div>`
+			}
+			var about ={
+				template:`<div>关于我们</div>`
+			}
+			var page404 = {
+				template:`<div>404页面
+				<button @click="goMain">返回首页</button>
+				</div>`,
+				methods:{
+					//返回首页
+					goMain:function(){
+						this.$router.push('/main');
+					}
+				}
+			}
+			//2.路由表
+			var routes = [
+				{"path":"/main","component":main},
+				{"path":"/about","component":about},
+				{"path":"*","component":page404}, 
+				// *  对于路由的全匹配，一般用于404页面的组件定位
+				//注意：404页需要写在路由表的最后面
+			];
+			
+			//3.创建路由对象
+			var router = new VueRouter({
+				routes:routes
+			})
+			
+			/**********根节点********************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				router:router//4.注册
+			})
+		</script>
+	</body>
+</html>

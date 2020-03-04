@@ -7,6 +7,8 @@
 		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/vue-router.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<link href="../css/swiper.min.css" type="text/css" rel="stylesheet" />
 		<style type="text/css">
 			*{padding:0;margin:0;}
 			ul,li{list-style:none;}
@@ -21,6 +23,12 @@
 			.top5list li a .top5_img{width:30%;}
 			.top5list li a .top5_img img{width: 80%; height: 50px;}			
 			.top5list li a .top5_text{width: 70%;}
+			/*轮播图样式*/
+			.swiper-container {
+			    width: 100%;
+			    height: 200px;
+			}  
+			.swiper-container img{height:200px;width: 100%;}
 		</style>
 	</head>
 	<body>
@@ -51,10 +59,17 @@
 		</script>
 		<!--内容页的数据渲染-->
 		<script type="text/template" id="itemT">
-			<div>内容页{{$route.params.pro_id}}</div>
+			<div>内容页
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" v-for="(item,index) in swiperArr">
+							<img :src="item.url" :alt="item.name"/>
+						</div>	
+					</div>
+				</div>
+				<h1 v-if="kechengitem.pro_name !== undefined">{{kechengitem.pro_name}}</h1>
+			</div>
 		</script>
-		
-		
 		
 		<script type="text/javascript">
 			//1.组件
@@ -77,7 +92,8 @@
 			var myitem = {
 				data:function(){
 					return {
-						item:{}
+						kechengitem:{},
+						swiperArr:[]
 					}
 				},
 				template:'#itemT',
@@ -85,19 +101,28 @@
 					console.log(this.$route.params.pro_id);
 					var pid= parseInt(this.$route.params.pro_id);
 					//7.获取数据，将数据保存到变量中
-					let params = new URLSearchParams();
+					let params = new URLSearchParams();//创建新的查询传参对象
+					//接口定义了一些实用的方法来处理 URL 的查询字符串
 					params.append('pro_id',pid);
 					params.append('fid','');
 					axios.post("https://www.jvhv.com/siteindex.php/Lesson/Detail.html",params).then((res)=>{
 						console.log(res);
-						//this.item = res.data.data.CourseTop5;
+						this.kechengitem = res.data.data;
+						console.log(this.kechengitem);
+						this.swiperArr = res.data.data.pro_imglist;
+						console.log(this.swiperArr);
 					})
+					
+					//轮播图的初始化操作
+					var mySwiper = new Swiper ('.swiper-container', {
+					    loop: true,
+						autoplay:2000,
+						speed:1000,
+						observer:true,
+						observeParents:true
+					  })        
+
 				},
-				watch:{
-					'$route'(to,from){
-						
-					}
-				}
 			}
 			
 			//2.路由表
