@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width" />
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{padding:0;margin:0;}
+			ul,li{list-style:none;}
+			.top5Con{
+				width: 90%; height:400px; background: #004b9e; border-radius: 10px; margin: auto;
+				margin-top:20px;
+			}
+			.top5Con h2{color:#fff; padding:20px;}
+			.top5list{background: #fff; margin:10px; height:300px;border-radius: 10px;}
+			.top5list li a{display: flex; flex-direction: row; flex-wrap: nowrap; height:60px;
+			 padding:6px ; border-bottom:1px solid #ddd; }
+			.top5list li a .top5_img{width:30%;}
+			.top5list li a .top5_img img{width: 80%; height: 50px;}			
+			.top5list li a .top5_text{width: 70%;}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--5.插入的路由信息-->
+			<router-link to="/list">首页</router-link>
+			<router-link to="/item">内容页</router-link>
+			
+			<!--6.路由出口-->
+			<router-view></router-view>
+		</div>
+		<!--列表页数据渲染-->
+		<script type="text/template" id="listT">
+			<div class="top5Con">
+				<h2>本周最受欢迎TOP5</h2>
+				<ul class="top5list">
+					<li v-for="(item,index) in listArr">
+						<router-link :to="'/item/'+item.pro_id">
+							<div class="top5_img"><img :src="item.pro_img[0].url" /></div>
+							<div class="top5_text">
+								<div>{{item.pro_name}}</div>
+								<div>{{item.pro_Joiner}}人已参加</div>
+							</div>
+						</router-link>
+					</li>
+				</ul>
+			</div>
+		</script>
+		<!--内容页的数据渲染-->
+		<script type="text/template" id="itemT">
+			<div>内容页{{$route.params.pro_id}}</div>
+		</script>
+		
+		
+		
+		<script type="text/javascript">
+			//1.组件
+			var mylist={
+				data:function(){
+					return{
+						listArr:[]
+					}
+				},
+				template:'#listT',
+				mounted:function(){
+					//7.获取数据，将数据保存到变量中
+					axios.post("https://www.jvhv.com/siteindex.php/Index/Index.html").then((res)=>{
+						console.log(res);
+						this.listArr = res.data.data.CourseTop5;
+					})
+				}
+			}
+			
+			var myitem = {
+				data:function(){
+					return {
+						item:{}
+					}
+				},
+				template:'#itemT',
+				mounted:function(){
+					console.log(this.$route.params.pro_id);
+					var pid= parseInt(this.$route.params.pro_id);
+					//7.获取数据，将数据保存到变量中
+					let params = new URLSearchParams();
+					params.append('pro_id',pid);
+					params.append('fid','');
+					axios.post("https://www.jvhv.com/siteindex.php/Lesson/Detail.html",params).then((res)=>{
+						console.log(res);
+						//this.item = res.data.data.CourseTop5;
+					})
+				},
+				watch:{
+					'$route'(to,from){
+						
+					}
+				}
+			}
+			
+			//2.路由表
+			var routes = [
+				{"path":"/list","component":mylist},
+				{"path":"/item/:pro_id","component":myitem},
+				
+			];
+			
+			//3.创建路由对象
+			var router = new VueRouter({
+				routes:routes
+			})
+			
+			/***************根节点*********************/
+			var vm = new Vue({
+				el:"#app",
+				//4.注册
+				router:router
+			})
+		</script>
+	</body>
+</html>
