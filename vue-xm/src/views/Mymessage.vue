@@ -1,9 +1,8 @@
 <template>
-	<div>用户中心</div>
+	<div>消息</div>
 </template>
 
 <script>
-	
 </script>
 
 <style>
