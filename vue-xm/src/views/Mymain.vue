@@ -2,15 +2,15 @@
 	<div>
 		<h2>首页</h2>
 		<!--轮播-->
-		<div class="swiper-container">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide" v-for="(item,index) in swiperArr" :key="index">
-					<img :src="item.adlist_img"  :alt="item.adtitle" />
-				</div>
-			</div>
-			<div class="swiper-pagination"></div>
-			<div class="swiper-button-prev"></div>
-			<div class="swiper-button-next"></div>
+		<myswiper :swiperArr="swiperArr" type="MAIN"></myswiper>
+		
+		<div class="iconCon">
+			<ul>
+				<li v-for="(item,index) in iconArr" :key="index">
+					<img :src="require('../assets/icon/'+(index+1)+'.png')" />
+					<span>{{item.CategoryName}}</span>
+					</li>
+			</ul>
 		</div>
 		
 		<!--精选-->
@@ -46,18 +46,18 @@
 <script>
 	//引入 axios
 	import axios from 'axios';
-	//引入swiper
-	import Swiper from 'swiper';
-	//引入swiper的css
-	import 'swiper/dist/css/swiper.css';
+	
+	//引入 swiper组件
+	import myswiper from '../components/MySwiper';
 	
 	export default {
 		name:'Mymain',
 		data:function(){
 			return {
-				top5Arr:[],
-				swiperArr:[],
-				jingxuanArr:[]
+				top5Arr:[],//top5数据
+				swiperArr:[],//轮播
+				jingxuanArr:[],//精选
+				iconArr:[]//10个小图标
 			}
 		},
 		//挂载的函数
@@ -70,22 +70,11 @@
 				//轮播数据
 				this.swiperArr = res.data.data.top_ad.list;
 				this.jingxuanArr = res.data.data.CourseforYou;
+				this.iconArr = res.data.data.iconList;
 			})
-			
-			var mySwiper = new Swiper ('.swiper-container', {
-			    loop: true,
-			    autoplay:2000,
-			    speed:1000,
-			    observer:true,//处理异步数据
-			    observeParents:true,
-			    // 如果需要分页器
-			    pagination: '.swiper-pagination',
-			    // 如果需要前进后退按钮
-			    nextButton: '.swiper-button-next',
-			    prevButton: '.swiper-button-prev',
-			  })        
-			
-			
+		},
+		components:{
+			myswiper
 		}
 		
 	}
@@ -95,16 +84,23 @@
 scoped="scoped" 该样式只在本页面起作用
 -->
 <style scoped="scoped" lang="scss">
-	//轮播图样式
-	.swiper-container{
+	
+	//icon样式
+	.iconCon{
 		border-bottom:#f5f5f5 solid 10px;
-		height:170px;
-		.swiper-wrapper{
-			.swiper-slide{
-				img{width: 100%; height:170px;}
+		
+		ul{
+			display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-around;
+			margin-bottom:20px;
+ 			li{
+				width: 40px; height:40px; margin:16px; text-align:center;
+				img{width: 100%; height:100%}
+				span{font-size:12px;}
 			}
 		}
 	}
+	
+	
 	//为您精选
 	.jingxuanCon{
 		h3{margin-top:10px; padding-left:10px; margin-bottom:10px;}

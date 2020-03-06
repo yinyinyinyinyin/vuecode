@@ -1,16 +1,8 @@
 <template>
 	<div>
 		<!--轮播-->
-		<div class="swiper-container">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide" v-for="(item,index) in swiperArr" :key="index">
-					<img :src="item.url"  :alt="item.adtitle" />
-				</div>
-			</div>
-			<div class="swiper-pagination"></div>
-			<div class="swiper-button-prev"></div>
-			<div class="swiper-button-next"></div>
-		</div>
+		<myswiper :swiperArr="swiperArr" type="ITEM"></myswiper>
+		
 		<h3>{{itemObj.pro_name}}</h3>
 		
 	</div>
@@ -19,10 +11,7 @@
 <script>
 	//引入 axios
 	import axios from 'axios'; 
-	//引入swiper
-	import Swiper from 'swiper';
-	//引入swiper的css
-	import 'swiper/dist/css/swiper.css';
+	import myswiper from '../components/MySwiper';
 	export default{
 		name:"myitem",
 		data:function(){
@@ -44,37 +33,14 @@
 				this.swiperArr = res.data.data.pro_imglist;
 				console.log(this.swiperArr);
 			})
-			
-			
-			var mySwiper = new Swiper ('.swiper-container', {
-			    loop: true,
-			    autoplay:2000,
-			    speed:1000,
-			    observer:true,//处理异步数据
-			    observeParents:true,
-			    // 如果需要分页器
-			    pagination: '.swiper-pagination',
-			    // 如果需要前进后退按钮
-			    nextButton: '.swiper-button-next',
-			    prevButton: '.swiper-button-prev',
-			  })   
-			
-			
+		},
+		components:{
+			myswiper:myswiper
 		}
 	}
 </script>
 
 <style lang="scss">
 	
-	//轮播图样式
-	.swiper-container{
-		border-bottom:#f5f5f5 solid 10px;
-		height:170px;
-		.swiper-wrapper{
-			.swiper-slide{
-				img{width: 100%; height:170px;}
-			}
-		}
-	}
 	h3{font-size: 26px; font-weight: normal; margin-top:10px; padding-left:10px;}
 </style>

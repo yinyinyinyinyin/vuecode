@@ -23,7 +23,14 @@ const routes = [
   	  path:'/myfind',
   	  name:'myfind',
   	  //路由栏加载,性能更好
-  	  component: () => import(/* webpackChunkName: "myfind" */ '../views/Myfind.vue')
+  	  component: () => import(/* webpackChunkName: "myfind" */ '../views/Myfind.vue'),
+	  children:[
+		{"path":"/",redirect:'mytuijian'},
+		{"path":'mytuijian',name:"mytuijian",component:()=>import(/* webpackChunkName: "mytuijian" */ '../views/Mytuijian.vue')},	
+		{"path":'myguanzhu',name:"myguanzhu",component:()=>import(/* webpackChunkName: "myguanzhu" */ '../views/Myguanzhu.vue')},
+		{"path":'mytongcheng',name:"mytongcheng",component:()=>import(/* webpackChunkName: "mytongcheng" */ '../views/Mytongcheng.vue')},
+	  ]
+  
   },
   {
   	  path:'/mymessage',
@@ -47,6 +54,7 @@ const routes = [
 
 //创建路由对象
 const router = new VueRouter({
+	linkActiveClass:'active',
   routes
 })
 
