@@ -1,0 +1,22 @@
+添加新页面
+1.src/views/Mine.vue
+添加代码
+<div>用户中心</div>
+
+2.添加路由表
+修改src/router/index.js
+{
+	  path:'/mine',
+	  name:'mine',
+	  //路由栏加载,性能更好
+	  component: () => import(/* webpackChunkName: "mine" */ '../views/Mine.vue')
+  }
+
+3.src/App.vue 中添加代码
+<!--相当于a标签的路由信息-->
+<router-link to="/">Home</router-link> |
+<router-link to="/about">About</router-link> |
+<router-link to="/mine">用户中心</router-link>
+
+练习：添加加减号的4个页面
+首页  发现   消息   我的
