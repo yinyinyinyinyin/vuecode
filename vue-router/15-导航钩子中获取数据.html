@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>路由独享守卫</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--5.插入路由信息-->
+			<div>
+				<router-link to="/foo">foo</router-link>
+				<router-link to="/bar/110">bar-110</router-link>
+				<router-link to="/bar/120">bar-120</router-link>
+			</div>
+			<!--6.定义路由出口-->
+			<router-view></router-view>
+			
+		</div>
+		<script type="text/javascript">
+			//1.组件
+			var foo = {
+				template:`<div>foo页面</div>`
+			}
+			//完成组件内的路由守卫
+			var bar = {
+				data:function(){
+					return {
+						list:[]
+					}
+				},
+				template:`<div>bar页面--
+				<ul>
+					<li v-for="(item,index) in list">{{item.title}}</li>
+				</ul>
+				
+				</div>`,
+				//组件进入前的路由守卫
+				//预加载
+				beforeRouteEnter(to,from,next){
+					console.log('组件进入前的路由守卫运行了');
+					axios.get('./js/zongyi.json').then(res=>{
+						console.log(res);
+						var list = res.data.subject_collection_items;
+						next(vm=>{
+							vm.list = list;
+						});
+						
+					});
+					
+				},
+				//当动态路由发生变化时会触发的路由守卫
+				beforeRouteUpdate(to,from,next){
+					console.log('组件路由发生变化时的路由守卫运行了');
+					axios.get('./js/zongyi.json').then(res=>{
+						console.log(res);
+						var list = res.data.subject_collection_items;
+						next(vm=>{
+							vm.list = list;
+						});
+						
+					});
+				},
+				//当组件离开时运行的路由守卫
+				beforeRouteLeave(to,from,next){
+					console.log('bar组件离开时的路由守卫运行了');
+					next();
+				}
+				
+			}
+
+			
+			//2.配置路由表
+			var routes = [
+				{"path":"/foo",component:foo},
+				{"path":"/bar/:userid",component:bar}
+			];
+			//3.创建路由对象
+			var router = new  VueRouter({
+				routes:routes
+			})
+			
+			/*************Vue实例创建******************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				router:router//4.注册
+			})
+		</script>
+	</body>
+</html>

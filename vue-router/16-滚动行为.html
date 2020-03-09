@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>滚动行为</title>
+		<meta name="viewport" content="width=device-width" />
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{padding:0;margin:0;}
+			ul,li{list-style: none;}
+			#tabbar{width: 100%; height: 50px; position: fixed; bottom:0;left:0;right:0;background: lightblue;
+			display:flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-around;line-height: 50px;}
+			#tabbar a{
+				text-decoration: none;color:orangered;
+			}
+			.box1{width: 100%; height: 400px; background: pink;}
+			.box2{width: 100%; height: 500px; background: yellow;}
+			.box3{width: 100%; height: 100px; background: palegreen; margin-top:10px;}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--6.定义路由出口-->
+			<router-view></router-view>
+			<!--5.插入路由信息-->
+			<div id="tabbar">
+				<router-link to="/home">首页</router-link>
+				<router-link to="/about">关于我们</router-link>
+				<router-link to="/center">用户中心</router-link>
+			</div>
+			
+			
+		</div>
+		<script type="text/javascript">
+			//1.组件
+			var home = {
+				template:`<div>首页页面
+					<div class="box1">bilibili</div>
+					<div class="box2">dilidili</div>
+				</div>`
+			}
+			//完成组件内的路由守卫
+			var about = {
+				template:`<div>关于我们页面
+				<ul >
+					<li class="box3" v-for="(item,index) in 20" :key="index">{{item}}</li>
+				</ul>
+				</div>`,			
+			}
+			var center = {
+				template:`<div>用户中心页面
+				</div>`,			
+			}
+
+			
+			//2.配置路由表
+			var routes = [
+				{"path":"/",redirect:"/home"},
+				{"path":"/home",component:home},
+				{"path":"/about",component:about},
+				{"path":"/center",component:center}
+			];
+			
+			//3.创建路由对象
+			var router = new  VueRouter({
+				routes:routes,
+				//滚动行为在每次切换路由时都会触发
+				scrollBehavior(to,from,savedPosition){//to,from,savedPosition 滚动的位置
+					console.log('滚动行为触发了！');
+					console.log(savedPosition);
+					if(savedPosition){
+						return {x:0,y:savedPosition};//如果你点击浏览器的返回按钮，会记录前一页的滚动位置
+					}else{
+						return {x:0,y:0};//每次页面切换时返回顶部
+					}
+					
+				}
+			})
+			
+			/*************Vue实例创建******************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				router:router//4.注册
+			})
+		</script>
+	</body>
+</html>
