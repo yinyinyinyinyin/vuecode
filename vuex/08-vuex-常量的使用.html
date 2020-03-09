@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<!--引入vuex-->
+		<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			获取vuex仓库中的值：{{count}}
+			<!--2.修改时在html中添加按钮-->
+			<button @click="incrementFun">count加n</button>
+			
+			<button @click="addStoreFun">给store添加新属性</button>
+		</div>
+		<script type="text/javascript">
+			//创建常量
+			const INCREMENT = 'INCREMENT';
+			
+			//new Vuex.Store创建vuex仓库
+			var store = new Vuex.Store({
+				//初始化时，去添加store中的新属性
+				state:{
+					count:10
+				},
+				//1.修改vuex中的state的值
+				mutations:{
+					//接收了两个参数   旧状态值,调用 mutation时传的第二个参数  
+					[INCREMENT]:function(state,  n){
+						state.count += n.num;
+					}
+				}
+			})
+			/***********创建vue的根节点************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				computed:{
+					count(){
+						return this.$store.state.count;
+					}
+				},
+				methods:{
+					incrementFun:function(){
+						this.$store.commit({
+							type:INCREMENT,
+							num:5
+						})
+					},
+					addStoreFun:function(){
+						//给store添加新属性,下面这句添加新属性是不ok的
+						//this.$store.state.test = '新添加的属性';
+						/*
+						 Vue 一样遵守一些注意事项：
+						最好提前在你的 store 中初始化好所有所需属性。
+						当需要在对象上添加新属性时，你应该
+						使用 Vue.set(obj, 'newProp', 123), 或者
+						以新对象替换老对象
+						*/
+						this.$store.state.test = {...this.$store.state.test,newProp:'我是新添加的属性'};
+						// console.log(this.$store.state);
+					}
+				},
+				store:store 
+			})
+		</script>
+	</body>
+</html>

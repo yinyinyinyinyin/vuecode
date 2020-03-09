@@ -11,7 +11,9 @@
 		<div id="app">
 			获取vuex仓库中的值：{{count}}
 			<!--2.修改时在html中添加按钮-->
-			<button @click="incrementFun">count加一</button>
+			<button @click="incrementFun">count加n</button>
+			
+			<button @click="addStoreFun">给store添加新属性</button>
 		</div>
 		<script type="text/javascript">
 			//new Vuex.Store创建vuex仓库
@@ -21,8 +23,9 @@
 				},
 				//1.修改vuex中的state的值
 				mutations:{
-					changeCount(state){
-						state.count++;
+					//接收了两个参数   旧状态值,调用 mutation时传的第二个参数  
+					increment:function(state,  n){
+						state.count += n.num;
 					}
 				}
 			})
@@ -36,15 +39,18 @@
 					}
 				},
 				methods:{
-					//3.添加修改的函数
 					incrementFun:function(){
-						//修改state，调用 mutation
-						this.$store.commit('changeCount');
-						//重点记忆：在vuex中不允许直接赋值
-						/*
-						再次强调，我们通过提交 mutation 的方式，而非直接改变 store.state.count，
-						是因为我们想要更明确地追踪到状态的变化。*/
-						//this.$store.state.count++;
+						this.$store.commit({
+							type:'increment',
+							num:5
+						})
+					},
+					addStoreFun:function(){
+						//给store添加新属性,下面这句添加新属性是不ok的
+						//this.$store.state.test = '新添加的属性';
+						
+						this.$store.state.test = {...this.$store.state.test,newProp:'我是新添加的属性'};
+						// console.log(this.$store.state);
 					}
 				},
 				store:store 

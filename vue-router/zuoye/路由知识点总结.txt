@@ -1,0 +1,111 @@
+## 路由
+	-- 1.创建组件
+	-- 2.配置路由表
+	-- 3.创建路由对象
+	-- 4.路由表注册
+	-- 5.html路由信息插入
+	-- 6.html路由出口
+## 动态路由
+	{path:"/movieitem/:movieid",component:movieitem}
+	获取动态路由传参：this.$route.params.movieid
+
+## 路由的404页面处理   {"path":"*","component":page404}, 
+
+## 嵌套路由的写法
+var routes = [
+	{
+		"path":"/main",
+		"component":main,
+		children:[//子路由
+			{"path":"child1",component:child1},
+			{"path":"child2",component:child2},
+		]
+	},
+	{"path":"/about","component":about},
+	{"path":"*","component":page404}, 
+	// *  对于路由的全匹配，一般用于404页面的组件定位
+	//注意：404页需要写在路由表的最后面
+];
+
+## 重定向 ，一般首页的重定向会多些  {"path":"/",redirect:'/home'} 
+
+## 编程式导航
+	--	1.编程式导航：在 js中去跳转的导航信息
+			分类：
+			1.this.$router.push();
+				this.$router.push('main');
+				this.$router.push({"path":"about"});
+				this.$router.push({"name":"about"});
+				传参：
+				this.$router.push({"name":"about",params:{"userId":105}});
+				this.$router.push({"path":"main",query:{"plan":"去旅游"}});
+			2.this.$router.go(); //返回上一页
+	-- 2.传参：
+			1.动态路由 
+			{path:"/movieitem/:movieid",component:movieitem}
+			接收 ：this.$router.params.***
+
+			2.
+			this.$router.push({"name":"about",params:{"userId":105}});
+			接收 ：this.$router.params.***
+			
+			3.
+			this.$router.push({"path":"main",query:{"plan":"去旅游"}});
+			接收：this.$router.query.***
+		   */
+
+## //props:true可以采用 props的方式传参，优势是对 $route进行解耦	
+
+## 路由的两种模式  ：history   hash
+var router = new VueRouter({
+	mode:'history',//history模式需要 后台支持，使用hash模式会多一些，缺点：长的不好看
+	routes:routes
+})
+			
+## 路由守卫
+1.路由守卫
+全局守卫   ：全局前置守卫、全局解析守卫、全局后置钩子
+路由独享守卫
+组件内的守卫
+
+2.全局前置守卫  router.beforeEach      参数：from to next
+
+3.全局解析守卫  router.beforeReslove   参数：from to next
+ 
+4.全局后置钩子  router.afterEach       参数：from to 
+
+5.路由独享守卫 在路由表中 写 beforeEnter  
+
+6.组件内的守卫
+组件进入前的守卫 beforeRouteEnter
+组件修改前的守卫 beforeRouteUpdate
+组件离开前的守卫 beforeRouteLeave
+
+7.路由元信息  meta   
+定义时：
+[
+	{"path":"/center",component:center,meta:{requireType:true}}
+]
+ 
+获取路由元信息：
+	-- 全局路由守卫中获取: to.meta.****
+	-- 组件中获取       : $route.meta.***
+
+8.路由切换的动画效果 transition
+
+9.导航钩子中获取数据  beforeRouteEnter  beforeRouteUpdate
+
+10.滚动行为  scrollBehavior
+```
+			var router = new  VueRouter({
+				routes:routes,
+				//滚动行为在每次切换路由时都会触发
+				scrollBehavior(to,from,savedPosition){//to,from,savedPosition 滚动的位置
+					if(savedPosition){
+						return {x:0,y:savedPosition};//如果你点击浏览器的返回按钮，会记录前一页的滚动位置
+					}else{
+						return {x:0,y:0};//每次页面切换时返回顶部
+					}
+				}
+			})
+```

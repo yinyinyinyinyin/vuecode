@@ -9,30 +9,22 @@
 	</head>
 	<body>
 		<div id="app">
-			<!--4.渲染-->
 			获取vuex仓库中的值：{{count}}
-			<child></child>
+			<!--2.修改时在html中添加按钮-->
+			<button @click="incrementFun">count加n</button>
 		</div>
 		<script type="text/javascript">
-			/**********创建组件*************/
-			var child = {
-				template:`<div>
-				我是子组件，我获取的store中的状态值是:{{count}}
-				</div>`,
-				computed:{
-					count:function(){
-						//获取store中的state的值
-						return this.$store.state.count;
-					}
-				}
-			};
-			
-			
-			/*************1.创建vuex对象***************/
 			//new Vuex.Store创建vuex仓库
 			var store = new Vuex.Store({
-				state:{//定义仓库中的状态值
+				state:{
 					count:10
+				},
+				//1.修改vuex中的state的值
+				mutations:{
+					//接收了两个参数   旧状态值,调用 mutation时传的第二个参数  
+					increment:function(state,  n){
+						state.count += n;
+					}
 				}
 			})
 			/***********创建vue的根节点************/
@@ -40,14 +32,19 @@
 				el:'#app',
 				data:{},
 				computed:{
-					count:function(){//<!--3.获取vuex中的数据-->
+					count(){
 						return this.$store.state.count;
 					}
 				},
-				components:{
-					child
+				methods:{
+					incrementFun:function(){
+						//载荷  ，也就是在调用 mutations中的函数时，除了传递 state状态以外，
+						//再传其他的参数
+						this.$store.commit('increment',5);
+					},
+					
 				},
-				store:store //2.vuex的注册
+				store:store 
 			})
 		</script>
 	</body>

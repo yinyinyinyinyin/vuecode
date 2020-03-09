@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			vuex中的数据是:{{count}}
+			<ul>
+				<li v-for="(item,index) in stu">{{item.id}} --- {{item.name}}</li>
+				
+			</ul>
+			
+		</div>
+		<script type="text/javascript">
+			//5.创建 mapState的辅助函数,h获取store中的数据
+			var mapState = Vuex.mapState;
+			
+			/***********1.创建vuex实例************/
+			var store = new Vuex.Store({
+				//2.初始化state的值
+				state:{
+						count:10,
+						stu:[
+							{"id":1,"name":"ziyue"},
+							{"id":2,"name":"tanming"},
+							{"id":3,"name":"yaxin"}
+						]
+				}
+				
+			})
+			
+			/*************根节点***************/
+			var vm = new Vue({
+				el:"#app",
+				//4.获取vuex中的store中的state的值
+				computed:{
+					// count:function(){
+					// 	return this.$store.state.count
+					// }
+					...mapState({
+						//将store中的state里面的值和props中的值进行了映射
+						count:state=>state.count,
+						stu:state=>state.stu
+					});
+					
+				},
+				//3.注册
+				store
+			})
+		</script>
+	</body>
+</html>
