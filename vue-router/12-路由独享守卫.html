@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>路由独享守卫</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--5.插入路由信息-->
+			<div>
+				<router-link to="/foo">foo</router-link>
+				<router-link to="/bar/110">bar-110</router-link>
+				<router-link to="/bar/120">bar-120</router-link>
+			</div>
+			<!--6.定义路由出口-->
+			<router-view></router-view>
+			
+		</div>
+		<script type="text/javascript">
+			//1.组件
+			var foo = {
+				template:`<div>foo页面</div>`
+			}
+			//完成组件内的路由守卫
+			var bar = {
+				data:function(){
+					return {
+						msg:'hello'
+					}
+				},
+				template:`<div>bar页面--{{msg}}</div>`,
+				//组件进入前的路由守卫
+				beforeRouteEnter(to,from,next){
+					console.log('组件进入前的路由守卫运行了');
+					console.log(this);//指向的window，组件的this并没有获取到，
+					//this.msg = 'hi';
+					console.log(this.msg);
+					
+					//使用 next  ，传参数 vm,可以修改 实例中的data中的数据值
+					next((vm)=>{
+						console.log(vm);
+						vm.msg = "new value";
+					});
+					
+					// //延时器
+					// setTimeout(function(){
+					// 	next((vm)=>{
+					// 		console.log(vm);
+					// 		vm.msg = "new value";
+					// 	});
+					// },1000);
+					
+				},
+				//当动态路由发生变化时会触发的路由守卫
+				beforeRouteUpdate(to,from,next){
+					console.log('组件路由发生变化时的路由守卫运行了');
+					next();
+				},
+				//当组件离开时运行的路由守卫
+				beforeRouteLeave(to,from,next){
+					console.log('bar组件离开时的路由守卫运行了');
+					next();
+				}
+				
+			}
+			var login = {
+				template:`<div>登录页面</div>`
+			} 
+			
+			//2.配置路由表
+			var routes = [
+				{
+					"path":"/foo",
+					component:foo,
+					//路由独享守卫
+					beforeEnter(to,from,next){
+						console.log('路由独享守卫运行了');
+						next();//next 没写任何参数时，表示不拦截该页面
+					}
+				},
+				{"path":"/bar/:userid",component:bar},
+				{"path":"/login",component:login},
+				
+			];
+			//3.创建路由对象
+			var router = new  VueRouter({
+				routes:routes
+			})
+			
+			/*************Vue实例创建******************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				router:router//4.注册
+			})
+		</script>
+	</body>
+</html>

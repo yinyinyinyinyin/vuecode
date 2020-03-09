@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>路由独享守卫</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--5.插入路由信息-->
+			<div>
+				<router-link to="/foo">foo</router-link>
+				<router-link to="/center">用户中心</router-link>
+			</div>
+			<!--6.定义路由出口-->
+			<router-view></router-view>
+			
+		</div>
+		<script type="text/javascript">
+			//1.组件
+			var foo = {
+				template:`<div>foo页面</div>`,
+				mounted:function(){
+					console.log(this.$route);
+
+				}
+			}
+			//完成组件内的路由守卫
+			var center = {
+				template:`<div>用户中心页面</div>`,
+			}
+			var login = {
+				template:`<div>登录页面</div>`
+			} 
+			
+			//2.配置路由表
+			var routes = [
+				{"path":"/foo",component:foo,meta:{requireAuth:false,iconType:true}},
+				{"path":"/center",component:center,
+				meta:{requireAuth:true},//表示该页面需要通过登录验证才能够访问
+				//meta  使用场景：这个页面是否需要验证，这个页面的链接是否需要显示，或者路由显示时是否需要小图标
+				},
+				{"path":"/login",component:login,
+				meta:{requireAuth:false}//这个页面不需要验证
+				},
+				
+			];
+			//3.创建路由对象
+			var router = new  VueRouter({
+				routes:routes
+			})
+			
+			
+			/**************全局守卫*******************/
+			var loginType = false;//没登录
+			router.beforeEach((to,from,next)=>{
+				console.log(to.meta);
+				//该页面是否需要验证
+				if(to.meta.requireAuth){				
+					if(loginType){
+						next();
+					}else{
+						next({path:'/login'});
+					}
+				}else{
+					next();//requireAuth false ，直接放行
+				}
+				
+			})
+			
+			/*************Vue实例创建******************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				router:router//4.注册
+			})
+		</script>
+	</body>
+</html>
