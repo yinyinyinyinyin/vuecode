@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">获取store中的状态值 {{count}}
+		<button @click="changeFun">count加一</button>
+		<button @click="syncChangeFun">延迟2秒count加一</button>
+		</div>
+		<script type="text/javascript">
+			var mapState = Vuex.mapState;
+			
+			/******1.创建 vuex对象*********/
+			var store = new Vuex.Store({
+				//2.state初始化
+				state:{
+					count:10
+				},
+				mutations:{
+					changeCount:function(state){
+						state.count++;
+					}
+				},
+				//1.添加 可以做异步处理的actions 
+				 //action可以执行异步操作，对于异步操作可以被记录或跟踪
+				actions:{
+					syncChangeCount:function(context){
+						setTimeout(()=>{
+							//将 store中的状态值提价到mutation
+							context.commit('changeCount')
+						},2000)
+					}
+				}
+			})
+			/*********创建vue对象************/
+			var vm = new Vue({
+				el:'#app',
+				store, //3.注册
+				computed:{
+					//获取 store中的state的值
+					...mapState({
+						count:state=>state.count
+					})
+				},
+				methods:{
+					changeFun:function(){
+						//将 store中的state提交到mutation
+						this.$store.commit('changeCount');
+					},
+					syncChangeFun:function(){
+						//将Store中的state值派发，发送到 actions  
+						this.$store.dispatch('syncChangeCount');
+					}
+					
+				}
+			})
+			
+		</script>
+	</body>
+</html>

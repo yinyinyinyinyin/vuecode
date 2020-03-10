@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">获取store中的状态值 {{count}}
+		<button @click="changeFun">count加一</button>
+		<button @click="syncChangeCount">延迟2秒count加一</button>
+		</div>
+		<script type="text/javascript">
+			var mapState = Vuex.mapState;
+			//1.定义mapActions
+			var mapActions = Vuex.mapActions;
+			var store = new Vuex.Store({
+				state:{
+					count:10
+				},
+				mutations:{
+					changeCount:function(state){
+						state.count++;
+					}
+				},
+				actions:{
+					syncChangeCount:function(context){
+						setTimeout(()=>{
+							//将 store中的状态值提价到mutation
+							context.commit('changeCount')
+						},2000)
+					}
+				}
+			})
+			/*********创建vue对象************/
+			var vm = new Vue({
+				el:'#app',
+				store, 
+				computed:{
+					...mapState({
+						count:state=>state.count
+					})
+				},
+				methods:{
+					changeFun:function(){
+						//将 store中的state提交到mutation
+						this.$store.commit('changeCount');
+					},
+					// syncChangeFun:function(){
+					// 	//将Store中的state值派发，发送到 actions  
+					// 	this.$store.dispatch('syncChangeCount');
+					// }  
+					//使用 mapActions 的方式调用 action
+					//...mapActions(['syncChangeCount'])
+					//上面一句可以写成对象的形式
+					...mapActions({
+						syncChangeCount:'syncChangeCount'
+					})
+				}
+			})
+			
+		</script>
+	</body>
+</html>

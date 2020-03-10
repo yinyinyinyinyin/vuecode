@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<!--引入vuex-->
+		<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!--4.渲染-->
+			获取vuex仓库中的值：
+			<ul >
+				<li v-for="(item,index) in stu" :key="index">{{item}}</li>
+				
+			</ul>
+			
+			显示小于20岁的同学名单：
+			<ul >
+				<li v-for="(item,index) in lessthan20" :key="index">{{item}}</li>
+				
+			</ul>
+			
+			<child></child>
+		</div>
+		<script type="text/javascript">
+			/************定义子组件，显示小于20的学生名单**************/
+			var child = {
+				template:`<div>子组件：显示小于20 的学生名单
+				<ul >
+					<li v-for="(item,index) in lessthan20" :key="index">{{item}}</li>
+					
+				</ul>
+				
+				</div>`,
+				computed:{
+					//与下面的63行到65行重复了
+					lessthan20:function(){
+						return this.$store.state.stu.filter(item=>item.age<20);
+					}
+				},
+			}
+			/*************1.创建vuex对象***************/
+			var store = new Vuex.Store({
+				state:{//定义仓库中的状态值
+					stu:[
+						{"id":1,"name":"刘奇",age:19},
+						{"id":2,"name":"陈功",age:22},
+						{"id":3,"name":"黄越",age:18},
+						{"id":4,"name":"谭明",age:21}
+						
+					]
+				}
+			})
+			/***********创建vue的根节点************/
+			var vm = new Vue({
+				el:'#app',
+				data:{},
+				computed:{
+					stu:function(){//<!--3.获取vuex中的数据-->
+						return this.$store.state.stu;
+					},
+					lessthan20:function(){
+						return this.$store.state.stu.filter(item=>item.age<20);
+					}
+				},
+				store:store, //2.vuex的注册
+				components:{
+					child
+				}
+			})
+		</script>
+	</body>
+</html>
+
