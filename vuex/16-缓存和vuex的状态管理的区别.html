@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		 <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		 <script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			store中的状态值：{{message}}
+			<button @click="changeMsg">修改 message的值</button>
+			<hr>
+			缓存中的msg的值：
+			{{msg}}
+			<button @click="changeLocalMsg">修改 storage中的msg的值</button>
+			
+		</div>
+		<script type="text/javascript">
+			/*
+			vuex 和 缓存localstorage的区别：
+			1.vuex 是响应式的，当某个组件调用store中的状态值发生变化时，
+			其他组件中获取该状态值也会跟着发生变化；vuex 当页面刷新时，会重置vuex中的state的数据
+			2.localstorage特点是，非响应式的，所以，当缓存中的值发生变化时，不会主动通知界面尽心更新，
+			需要手动调用或者刷新页面；localstorage当刷新页面时对他没任何影响
+			
+			*/
+			
+			
+			/********2.创建vuex对象************/
+			var store = new Vuex.Store({
+				state:{
+					message:'vuex'
+				},
+				//在mutations中修改状态值
+				mutations:{
+					CHANGE_MESSAGE(state,payload){
+						state.message = payload;
+					}
+				}
+			})
+			/*********1.根********/
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					msg:localStorage.getItem('msg')
+				},
+				store,//3.注册
+				computed:{
+					message(){
+						//获取store中的状态值
+						return this.$store.state.message;
+					}
+				},
+				methods:{
+					//修改 store中的message的值
+					changeMsg:function(){
+						this.$store.commit('CHANGE_MESSAGE',"new vuex");
+					},
+					//修改的缓存中的msg的值
+					changeLocalMsg:function(){
+						localStorage.setItem("msg","new localstorage");
+						this.msg = localStorage.getItem("msg");
+					}
+				},
+				created:function(){
+					if(!localStorage.getItem("msg")){//页面一创建，判断 有没有msg的缓存，如果没有，新建这个缓存数据
+						localStorage.setItem("msg","localstorage");
+						
+					}
+				}
+				
+			})
+		</script>
+	</body>
+</html>
