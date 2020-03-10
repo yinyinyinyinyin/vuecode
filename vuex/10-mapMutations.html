@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">获取store中的状态值 {{count}}   ---   {{mynum}}
+		<button @click="changeFun">count加一</button>
+		<button @click="changeMynum">mynum加5</button>
+		</div>
+		<script type="text/javascript">
+			var mapState = Vuex.mapState;
+			//1.定义mapMutations
+			var mapMutations = Vuex.mapMutations;
+			
+			/******1.创建 vuex对象*********/
+			var store = new Vuex.Store({
+				//2.state初始化
+				state:{
+					count:10,
+					mynum:0
+				},
+				mutations:{
+					changeCount:function(state){
+						state.count++;
+					},
+					changeMynum:function(state){
+						state.mynum+=5;
+					}
+				}
+			})
+			
+			
+			
+			/*********创建vue对象************/
+			var vm = new Vue({
+				el:'#app',
+				store, //3.注册
+				computed:{
+					//获取 store中的state的值
+					//get
+					...mapState({
+						count:state=>state.count,
+						mynum:state=>state.mynum,
+					})
+				},
+				methods:{
+					// changeCount:function(){
+					// 	//将 store中的state提交到mutation
+					// 	this.$store.commit('changeCount');
+					// },
+					//将函数修改为mutations的形式
+					//将store中的mutations里面的函数映射为vue对象中的函数
+					//set
+					//...mapMutations(['changeCount','changeMynum'])
+					
+					//对象 的形式
+					...mapMutations({
+						changeFun:'changeCount',
+						changeMynum:'changeMynum'
+					})
+				}
+			})
+			
+		</script>
+	</body>
+</html>
