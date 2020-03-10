@@ -11,23 +11,26 @@
 		<style type="text/css">
 			*{margin:0;padding:0;}
 			ul,li{list-style: none;}
+			a{text-decoration: none;}
 			.nav{height: 50px; width: 100%; line-height: 50px; display: flex;
 			justify-content: space-around;background: lightblue; color:oranged;}
 			.nav a{
 				text-decoration: none;color:orangered;font-weight: bold;
 			}
-			.list ul li{
-			display: flex;flex-direction: row;	 flex-wrap: nowrap;margin-top:10px;
-			background:lightgoldenrodyellow; padding-top:5px;padding-bottom:5px;				
+			.list ul li a{
+			display:flex;flex-direction: row; justify-content: space-around; flex-wrap: nowrap;margin-top:10px;
+			background:lightgoldenrodyellow; padding-top:5px;padding-bottom:5px;
+			color:#000;
 			}
 			.list ul li div:nth-of-type(1){width:20%;}
 			.list ul li div:nth-of-type(1) img{ width:100%;}
-			.list ul li div:nth-of-type(2){width:80%;}
+			.list ul li div:nth-of-type(2){width:70%;}
 			.item h3{ text-align: center; height:50px; line-height: 50px; border-bottom:1px solid #ccc;}
 			.item div img {width: 100%;}
 			.item .add{position: fixed; bottom:0;left:0;right:0;height:50px; line-height:50px;
 			text-align: center; background-color:deeppink; color:#fff;
 			}
+			.cart ul li{height:100px; background: lightcyan; margin-top:10px;}
 		</style>
 	</head>
 	<body>
@@ -44,6 +47,13 @@
 		
 		
 		<script type="text/javascript">
+			//解构赋值
+			var {mapState,mapMutations,mapActions,mapGetters} = Vuex;
+			//上面的一句就相当于下面的4句
+			// var mapState = Vuex.mapState;
+			// var mapMutations = Vuex.mapMutations;
+			// var mapActions = Vuex.mapActions;
+			// var mapGetters = Vuex.mapGetters;
 			/***********1.组件*************************/
 			var list = {
 				data:function(){
@@ -60,7 +70,6 @@
 						</router-link>
 					</li>
 				</ul>
-				
 				</div>`,
 				mounted:function(){
 					axios.get('./json/list.json').then(res=>{
@@ -72,42 +81,124 @@
 			var item = {
 				data:function(){
 					return {
-						item:{}
+						itemObj:{}
 					}
 				},
 				template:`<div class="item">
-				<h3>{{item.sku_name}}</h3>
-				<div><img :src="item.sku_img_url" /></div>
-				<div class="add">添加购物车</div>
+				<h3>{{itemObj.sku_name}}</h3>
+				<div><img :src="itemObj.sku_img_url" /></div>
+				<div class="add" @click="ADD_CART_AC(itemObj)">添加购物车</div>
 				</div>`,
 				mounted:function(){
 					axios.get('./json/item_'+this.$route.params.item_id+'.json').then(res=>{
 						console.log(res);
-						this.item = res.data.data.reviews[0];
+						this.itemObj = res.data.data.reviews[0];
 					});
+				},
+				methods:{
+					// ...mapActions({
+					// 	ADD_CART_AC:'ADD_CART_AC',
+					// 	item:this.itemObj
+					// })  
+					 //c. 使用 vuex 里面的函数
+					ADD_CART_AC:function(item){
+						item.num = 1;
+						item.item_id = this.$route.params.item_id;
+						//派发到action
+						this.$store.dispatch("ADD_CART_AC",item);
+					}
 				}
 				
 			}
 			var cart = {
-				template:`<div>购物车</div>`
+				data:function(){
+					return {
+						type:false
+					}
+				},
+				template:`<div class="cart">
+				<h3>购物车</h3>
+				<template v-if="type">
+					<ul>
+						<li v-for="(item,index) in goods">{{item.sku_name}} ,数量：{{item.num}} </li>
+					</ul>
+				</template>
+				<template v-else>
+					<router-link to="/list"><button>去首页逛逛</button></router-link>
+				</template>
+				</div>`,
+				computed:{
+					...mapState(['goods'])
+				},
+				mounted:function(){
+					console.log(this.goods);
+					if(this.goods.length > 0){
+						this.type = true;
+					}
+				}
 			}
 			
+			
+			
+			/************a.创建vuex对象*********************/
+			var store = new Vuex.Store({
+				state:{
+					goods:[]//购物车中的商品初始化
+				},
+				getters:{
+					
+				},
+				mutations:{
+					//添加购物车
+					ADD_CART:function(state,payload){
+						state.goods.push(payload);
+					},
+					//修改购物车中商品的数量
+					UPDATE_CART:function(state,payload){
+						state.goods = payload;
+					}
+				},
+				actions:{
+					//异步操作和逻辑操作都可以写在 action中
+					ADD_CART_AC:function(context,item){
+						//添加商品到 goods
+						var type = true;//true表示该商品是第一次添加；false 表示该商品不是第一次添加
+						//循环查找该商品的id号
+						var newArr = [...this.state.goods];
+						console.log(newArr);
+						console.log(item);
+						for(var i = 0;i<newArr.length;i++){
+							if(newArr[i].item_id == item.item_id){//在购物车中找到了该商品
+								//将 购物车中的该商品数量加一
+								newArr[i].num++;
+								context.commit('UPDATE_CART',newArr);
+								//修改type的状态值
+								type = false;
+								break;
+							}
+						}
+						console.log(item);
+						if(type){
+							context.commit('ADD_CART',item);
+						}
+					}
+				}
+			})
 			/***********2.配置路由表*********/
 			var routes = [
 				{"path":"/list",component:list},
 				{"path":"/item/:item_id",component:item},
 				{"path":"/cart",component:cart},
-				
 			]
 			/***********3.创建路由对象**************/
 			var router = new VueRouter({
 				routes:routes
 			})
-			
 			/************创建vue实例******************************/
 			var vm = new Vue({
 				el:"#app",
-				router//4.注册路由
+				router,//4.注册路由
+				store//b.注册vuex
 			})
 		</script>
 	</body>
