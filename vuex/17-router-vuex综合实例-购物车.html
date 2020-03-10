@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vuex.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<meta name="viewport" content="width=device-width" />
+		<style type="text/css">
+			*{margin:0;padding:0;}
+			ul,li{list-style: none;}
+			.nav{height: 50px; width: 100%; line-height: 50px; display: flex;
+			justify-content: space-around;background: lightblue; color:oranged;}
+			.nav a{
+				text-decoration: none;color:orangered;font-weight: bold;
+			}
+			.list ul li{
+			display: flex;flex-direction: row;	 flex-wrap: nowrap;margin-top:10px;
+			background:lightgoldenrodyellow; padding-top:5px;padding-bottom:5px;				
+			}
+			.list ul li div:nth-of-type(1){width:20%;}
+			.list ul li div:nth-of-type(1) img{ width:100%;}
+			.list ul li div:nth-of-type(2){width:80%;}
+			.item h3{ text-align: center; height:50px; line-height: 50px; border-bottom:1px solid #ccc;}
+			.item div img {width: 100%;}
+			.item .add{position: fixed; bottom:0;left:0;right:0;height:50px; line-height:50px;
+			text-align: center; background-color:deeppink; color:#fff;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--5.添加路由 信息-->
+			<div class="nav">
+				<router-link to="/list">列表</router-link>
+				<router-link to="/cart">购物车</router-link>
+			</div>
+			
+			<!--6.路由出口-->
+			<router-view></router-view>
+		</div>
+		
+		
+		<script type="text/javascript">
+			/***********1.组件*************************/
+			var list = {
+				data:function(){
+					return {
+						list:[]
+					}
+				},
+				template:`<div class="list">
+				<ul>
+					<li v-for="(item,index) in list">
+						<router-link :to="'/item/'+item.item_id">
+						<div><img :src="item.over_image_url" :alt="item.item_name" /></div>
+						<div>{{item.item_name}}</div>
+						</router-link>
+					</li>
+				</ul>
+				
+				</div>`,
+				mounted:function(){
+					axios.get('./json/list.json').then(res=>{
+						console.log(res);
+						this.list = res.data.data.item_list;
+					});
+				}
+			}
+			var item = {
+				data:function(){
+					return {
+						item:{}
+					}
+				},
+				template:`<div class="item">
+				<h3>{{item.sku_name}}</h3>
+				<div><img :src="item.sku_img_url" /></div>
+				<div class="add">添加购物车</div>
+				</div>`,
+				mounted:function(){
+					axios.get('./json/item_'+this.$route.params.item_id+'.json').then(res=>{
+						console.log(res);
+						this.item = res.data.data.reviews[0];
+					});
+				}
+				
+			}
+			var cart = {
+				template:`<div>购物车</div>`
+			}
+			
+			/***********2.配置路由表*********/
+			var routes = [
+				{"path":"/list",component:list},
+				{"path":"/item/:item_id",component:item},
+				{"path":"/cart",component:cart},
+				
+			]
+			/***********3.创建路由对象**************/
+			var router = new VueRouter({
+				routes:routes
+			})
+			
+			/************创建vue实例******************************/
+			var vm = new Vue({
+				el:"#app",
+				router//4.注册路由
+			})
+		</script>
+	</body>
+</html>
