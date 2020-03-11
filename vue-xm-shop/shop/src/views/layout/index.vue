@@ -59,7 +59,7 @@ lang="scss" 以下css使用 scss语法
 				.main-con{
 					width:100%;
 					min-height:100%;
-					background: lightcyan;
+					//background: lightcyan;
 				}
 			}
 		}
