@@ -1,0 +1,12 @@
+1.下载 shop.rar
+
+2.将shop.rar复制到E:，点击 解压到shop
+
+3.在cmd打开 项目目录
+e:
+cd  shop
+4.安装依赖
+cnpm install
+
+5.安装scss
+cnpm install --save-dev node-sass sass-loader
