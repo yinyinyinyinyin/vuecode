@@ -6,7 +6,10 @@
 e:
 cd  shop
 4.安装依赖
-cnpm install
+npm install
 
 5.安装scss
 cnpm install --save-dev node-sass sass-loader
+
+6.运行程序
+npm run serve
