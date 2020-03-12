@@ -6,6 +6,8 @@ import store from './store'
 //引入 element ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+//引入小图标的css
+import '@/fonts/iconfont.css';
 
 //引入 vcharts
 import VCharts from 'v-charts';

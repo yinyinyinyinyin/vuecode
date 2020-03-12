@@ -9,38 +9,33 @@
 		      text-color="#fff"
 		      active-text-color="#ffd04b">
 			  <template v-for="(item,index) in routes"  v-if="!item.hidden">
-				  <template v-if= "item.name=='home'"><!--首页-->
-					  <el-menu-item index="/home" >
-						<router-link to="/home">
-							  <i class="el-icon-location"></i>
-							  <span>{{item.meta.title}}</span>
-						</router-link>
+				  <template v-if= "item.name=='home'" >
+					  <el-menu-item :index="item.path" >
+							<router-link to="/home">
+							  <i class="icon iconfont my-icon" :class="item.meta.icon"></i>
+							  <span >{{item.meta.title}}</span>
+						   </router-link>						
 					  </el-menu-item>
 				  </template>
 				  
 				  <template v-else>
 					 <el-submenu :index="item.name" >
 					    <template slot="title" >
-					      <i class="el-icon-location"></i>
+					      <i class="icon iconfont my-icon" :class="item.meta.icon"></i>
 					      <span>{{item.meta.title}}</span>
 					    </template>
 					    <el-menu-item-group v-for="(item2,index2) in item.children" :key="index2">		         
 					      <router-link :to="item.path+'/'+item2.path">
-					  				  <el-menu-item :index="item.path+'/'+item2.path">{{item2.meta.title}}</el-menu-item>
-					  				  </router-link>
+					  			<el-menu-item :index="item.path+'/'+item2.path">
+									<i class="icon iconfont my-icon" :class="item2.meta.icon"></i>
+									<span>{{item2.meta.title}}</span>
+								</el-menu-item>
+					  		</router-link>
 					    </el-menu-item-group> 
 					  </el-submenu>
-				  </template><!--非首页-->
+				  </template>
 			  </template>
-			  
-			  
-		     
-		      
 		    </el-menu>
-		
-		
-		
-		
 	</div>
 </template>
 
@@ -69,5 +64,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped="scoped">
+	.el-menu{border-right:0;}
+	.my-icon{margin-right: 10px;}
 </style>

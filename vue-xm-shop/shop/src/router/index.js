@@ -26,12 +26,12 @@ const routes = [
 	  component:Layout,
       redirect:'/home',
       name:'home',
-	  meta:{title:'首页'},
+	  meta:{title:'首页',icon:'icon-home'},
 	  children:[
 		  {
 			path:'home',
 			name:'myhome',
-			meta:{title:"首页"},
+			meta:{title:"首页",icon:'icon-home'},
 			component:()=>import(/*webpackChunkName:"home"*/'@/views/home/index')  
 		  }  
 	  ]
@@ -41,36 +41,36 @@ const routes = [
 	  component:Layout,
 	  redirect:'/pms/product',
 	  name:'pms',
-	  meta:{title:'商品'},
+	  meta:{title:'商品',icon:'icon-shangpin'},
 	  children:[
 		  {
 			  path:'product',
 			  name:'product',
-			  meta:{title:"商品列表"},
+			  meta:{title:"商品列表",icon:'icon-liebiao1'},
 			  component:()=>import(/*webpackChunkName:"product"*/'@/views/pms/product/index') 
 		  },
 		  {
 			  path:'addproduct',
 			  name:'addproduct',
-			  meta:{title:"添加商品"},
+			  meta:{title:"添加商品",icon:'icon-tianjia'},
 			  component:()=>import(/*webpackChunkName:"addproduct"*/'@/views/pms/product/add') 
 		  },
 		  {
 			  path:'productCate',
 			  name:'productCate',
-			  meta:{title:"商品分类"},
+			  meta:{title:"商品分类",icon:'icon-fenlei1'},
 			  component:()=>import(/*webpackChunkName:"productCate"*/'@/views/pms/productCate/index') 
 		  },
 		  {
 			  path:'productAttr',
 			  name:'productAttr',
-			  meta:{title:"商品类型"},
+			  meta:{title:"商品类型",icon:'icon-haofangtuo400iconfontzhuzhaileixing'},
 			  component:()=>import(/*webpackChunkName:"productAttr"*/'@/views/pms/productAttr/index') 
 		  },
 		  {
 			  path:'brand',
 			  name:'brand',
-			  meta:{title:"品牌管理"},
+			  meta:{title:"品牌管理",icon:'icon-pinpaitemai'},
 			  component:()=>import(/*webpackChunkName:"brand"*/'@/views/pms/brand/index') 
 		  }  
 	  ]
