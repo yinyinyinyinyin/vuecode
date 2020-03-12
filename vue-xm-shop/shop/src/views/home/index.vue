@@ -73,10 +73,8 @@
 					
 				</el-col>
 				<el-col :span="20">
-					<div id="container" style="height: 400px">
-						
-						
-					</div>
+					<ve-line :data="chartData" :settings="chartSettings"
+					:loading="loading" ></ve-line>
 				</el-col>
 			</el-row>
 			
@@ -136,95 +134,18 @@
 					  {date: '2018-11-15', orderCount: 40, orderAmount: 4293}
 					]
 				},
+				chartSettings:{
+					xAxisType:'time',
+					area:true,  
+					axisSite:{right:['orderAmount']},
+					labelMap:{'orderCount':'订单数量','orderAmount':'订单金额'}
+				},
+				loading:true,
 				
-				option:{
-				    color: colors,
-				    tooltip: {
-				        trigger: 'none',
-				        axisPointer: {
-				            type: 'cross'
-				        }
-				    },
-				    legend: {
-				        data:['订单数量', '订单金额']
-				    },
-				    grid: {
-				        top: 70,
-				        bottom: 50
-				    },
-				    xAxis: [
-				        {
-				            type: 'category',
-				            axisTick: {
-				                alignWithLabel: true
-				            },
-				            axisLine: {
-				                onZero: false,
-				                lineStyle: {
-				                    color: colors[1]
-				                }
-				            },
-				            axisPointer: {
-				                label: {
-				                    formatter: function (params) {
-				                        return '订单金额  ' + params.value
-				                            + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
-				                    }
-				                }
-				            },
-				            data: ['2018-11-01', '2018-11-02', '2018-11-03', '2018-11-04', '2018-11-05', '2018-11-06', '2018-11-07', '2018-11-08', '2018-11-09', '2018-11-10', '2018-11-11', '2018-11-12']
-				        },
-				        {
-				            type: 'category',
-				            axisTick: {
-				                alignWithLabel: true
-				            },
-				            axisLine: {
-				                onZero: false,
-				                lineStyle: {
-				                    color: colors[0]
-				                }
-				            },
-				            axisPointer: {
-				                label: {
-				                    formatter: function (params) {
-				                        return '订单数量  ' + params.value
-				                            + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
-				                    }
-				                }
-				            },
-				            data: ['2015-1', '2015-2', '2015-3', '2015-4', '2015-5', '2015-6', '2015-7', '2015-8', '2015-9', '2015-10', '2015-11', '2015-12']
-				        }
-				    ],
-				    yAxis: [
-				        {
-				            type: 'value'
-				        }
-				    ],
-				    series: [
-				        {
-				            name: '订单数量',
-				            type: 'line',
-				            xAxisIndex: 1,
-				            smooth: true,
-				            data: [10,20,33,45,90,87,120,34,56,98,12,69,34,90,101]
-				        },
-				        {
-				            name: '订单金额',
-				            type: 'line',
-				            smooth: true,
-				            data: [1092,1000,2345,567,1234,1092,100,2345,4567,1234,1092,1000,2345,4567,1234]
-				        }
-				    ]
-				}
 				
 			}
 		},
-		mounted:function(){
-			this.seven_chart = this.echarts.init(document.getElementById("container"));
-			// 把配置和数据放这里
-			this.seven_chart.setOption(this.option)  ;            
-		}
+
 	}
 </script>
 
