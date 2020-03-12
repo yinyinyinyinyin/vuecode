@@ -1,9 +1,9 @@
 import axios from 'axios';
 import {Message} from 'element-ui';
-
+console.log(process.env.BASE_API);
 //创建axios实例
 const service = axios.create({
-	baseURL:'http://127.0.0.1:8009/',//api的基础路径
+	baseURL:'http://yinruifang.cn/',//api的基础路径
 	timeout:15000//请求的超时时间
 });
 //console.log(9,service);
