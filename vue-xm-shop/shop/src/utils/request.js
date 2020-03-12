@@ -3,9 +3,10 @@ import {Message} from 'element-ui';
 console.log(process.env.BASE_API);
 //创建axios实例
 const service = axios.create({
-	baseURL:'http://yinruifang.cn/',//api的基础路径
-	timeout:15000//请求的超时时间
+	baseURL:'/api/',//api的基础路径http://yinruifang.cn/
+	timeout:15000,//请求的超时时间
 });
+//service.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded';
 //console.log(9,service);
 
 //request请求拦截,验证token ,为了防攻击防注入
