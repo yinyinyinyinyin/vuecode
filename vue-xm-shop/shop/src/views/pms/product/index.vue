@@ -8,10 +8,31 @@
 			<el-button class="product-btn" type="primary" @click="handleSearchList()">查询</el-button>
 		  </div>
 		  <!--搜索表单项-->
-		  <el-form ref="form" :model="listQuery" label-width="80px">
+		  <el-form class="product-form" ref="form" :model="listQuery" label-width="80px">
 		    <el-form-item label="输入搜索:">
 		     <el-input class="input-width"  v-model="listQuery.name" placeholder="商品名称"></el-input>
 		    </el-form-item>
+			<el-form-item label="商品货号:">
+			 <el-input class="input-width"  v-model="listQuery.product_sn" placeholder="商品货号"></el-input>
+			</el-form-item>
+			<el-form-item label="上架状态:">
+			  <el-select v-model="listQuery.publish_status" placeholder="全部" class="input-width" >
+			       <el-option v-for="item in publishStatusOptions"
+				   :key = "item.value" :label="item.label" :value="item.value"
+				   ></el-option>
+			     </el-select>
+			</el-form-item>
+			<!--审核状态-->
+			
+			<!--品牌-->
+			<el-form-item label="商品品牌:">
+			  <el-select v-model="listQuery.brand_id" placeholder="请选择品牌"  class="input-width" >
+			       <el-option v-for="item in brandOptions"
+				   :key = "item.id" :label="item.name" :value="item.id"
+				   ></el-option>
+			     </el-select>
+			</el-form-item>
+			
 		  </el-form>		
 		</el-card>
 		
@@ -66,7 +87,7 @@
 
 <script>
 	//引入获取商品列表的数据api
-	import {fetchList,fetchCateList} from '../../../api/product';
+	import {fetchList,fetchCateList,fetchBrandList} from '../../../api/product';
 	export default{
 		name:'productList',
 		data:function(){
@@ -82,7 +103,16 @@
 					product_sn:null,//商品货号
 					product_category_id:null,//商品分类的id
 					brand_id:null //品牌的id
-				}
+				},
+				//上架状态数组
+				publishStatusOptions:[
+					{value:1,label:'上架'},
+					{value:0,label:'下架'}
+				],
+				//审核状态*****
+				
+				//品牌列表
+				brandOptions:[]
 			}
 		},
 		mounted:function(){
@@ -91,6 +121,9 @@
 			
 			//获取分类列表数据
 			this.getCateList();
+			
+			//获取品牌列表
+			this.getBrandList();
 		},
 		methods:{
 			getList:function(){
@@ -101,10 +134,17 @@
 					this.list = res.product;
 				})
 			},
+			//获取分类列表
 			getCateList:function(){
 				//获取数据
 				fetchCateList().then(res=>{
 					console.log(res);
+				})
+			},
+			//获取品牌列表
+			getBrandList:function(){
+				fetchBrandList().then(res=>{
+					this.brandOptions = res.data
 				})
 			},
 			//查询
@@ -141,7 +181,12 @@
 			
 		}
 		.margin-btn{margin-left:10px;}
-		.input-width{width: 200px;}
+		.input-width{width: 160px;}
+	}
+	.product-form{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
 	}
 	
 </style>

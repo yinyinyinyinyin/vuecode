@@ -18,3 +18,12 @@ export function fetchCateList(params){
 		params:params
 	})
 }
+
+/*获取品牌列表 所有值没有分页*/
+export function fetchBrandList(params){
+	return request({
+		url:'/Api/get_product_brand',
+		method:'get',
+		params:params
+	})
+}
