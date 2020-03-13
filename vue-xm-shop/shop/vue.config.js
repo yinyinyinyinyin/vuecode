@@ -6,13 +6,13 @@ module.exports={
 		port:8080,
 		https:false,
 		open:true,
-		proxy: {
+		proxy: {//跨域
 			'/api': {
 				target: 'http://yinruifang.cn',  // target host
 				ws: true,  // proxy websockets
 				changeOrigin: true,  // needed for virtual hosted sites
 				pathRewrite: {
-					'^/api': '/index/Api'  // rewrite path
+					'^/api': '/index'  // rewrite path
 				}
 			},
 		}, 
