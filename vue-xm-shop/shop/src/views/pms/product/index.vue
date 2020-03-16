@@ -87,7 +87,8 @@
 				<el-table-column label="审核状态" prop="verify_status"></el-table-column>
 				<el-table-column label="操作" width="150" >
 					<template slot-scope="scope" >
-						<el-button type="primary" size="mini"  @click="handleUpdatePeoduct(scope.row)" >编辑</el-button><el-button type="danger" size="mini">删除</el-button>
+						<el-button type="primary" size="mini"  @click="handleUpdateProduct(scope.row)" >编辑</el-button>
+						<el-button type="danger" size="mini" @click="handleDeleteProduct(scope.row)">删除</el-button>
 					</template>
 					
 				</el-table-column>
@@ -109,7 +110,7 @@
 
 <script>
 	//引入获取商品列表的数据api
-	import {fetchList,fetchCateList,fetchBrandList} from '../../../api/product';
+	import {fetchList,fetchCateList,fetchBrandList,deleteProduct} from '../../../api/product';
 	export default{
 		name:'productList',
 		data:function(){
@@ -236,9 +237,27 @@
 				this.getList();	
 			},
 			//修改一条记录
-			handleUpdatePeoduct:function(row){
+			handleUpdateProduct:function(row){
 				//跳转到修改页面
 				this.$router.push({path:'/pms/updateproduct',query:{id:row.id}});
+			},
+			//删除
+			handleDeleteProduct:function(row){
+				//提示框
+				this.$confirm('是否要进行删除操作？','提示',{
+					confirmButtonText:'确定',
+					cancelButtonText:'取消',
+					type:'warning'
+				}).then(()=>{
+					console.log(row.id);
+					//调用后台接口，删除该条数据
+					deleteProduct({'id':row.id}).then(res=>{
+						console.log(res);
+						if(res.type === 'success'){
+							this.getList();
+						}
+					})
+				})
 			}
 		},
 		filters:{

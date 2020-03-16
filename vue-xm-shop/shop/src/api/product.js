@@ -67,3 +67,26 @@ export function updateProduct(data){
 		data:data
 	})
 }
+
+/*删除商品的某条数据*/
+export function deleteProduct(data){
+	return request({
+		url:'/Api/delete_status',
+		method:'post',
+		data:data
+	})
+}
+
+
+/*获取商品分类的一级或二级列表  get_product_category_list*/
+/*
+parent_id  表示父级节点的id号,如果是0,表示是一级节点
+
+*/
+export function fetchProductCate1or2(parent_id,params){
+	return request({
+		url:'/Api/get_product_category_list/'+parent_id,
+		method:'get',
+		params:params
+	})
+}
