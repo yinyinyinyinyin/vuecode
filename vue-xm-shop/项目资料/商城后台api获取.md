@@ -42,7 +42,7 @@ data: [商品类型数组]
 url 地址：http://yinruifang.cn/index/Api/delete_status
 参    数：商品id号
 传参方式：例如： {'id':4}
-请求方式：post
+请求方式：get
 返 回 值：
 {
 status: 200

@@ -69,11 +69,11 @@ export function updateProduct(data){
 }
 
 /*删除商品的某条数据*/
-export function deleteProduct(data){
+export function deleteProduct(params){
 	return request({
 		url:'/Api/delete_status',
-		method:'post',
-		data:data
+		method:'get',
+		params:params
 	})
 }
 
