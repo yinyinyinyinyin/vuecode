@@ -1,6 +1,9 @@
 //引入封装好的axios  
 import request from '@/utils/request';
-
+/*
+get方式传参:params
+post放肆传参:data
+*/
 /*获取商品列表index/Api/*/
 export function fetchList(params){
 	return request({
@@ -25,5 +28,14 @@ export function fetchBrandList(params){
 		url:'/Api/get_product_brand',
 		method:'get',
 		params:params
+	})
+}
+
+/*添加一条商品信息*/
+export function createProduct(data){
+	return request({
+		url:'/Api/create_product',
+		method:'post',
+		data:data
 	})
 }

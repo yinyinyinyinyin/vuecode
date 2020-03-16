@@ -5,7 +5,7 @@
 		</el-card>
 		<!--:model绑定的内容就是我们要提交到后台的内容  -->
 		<!--:rules 验证条件-->
-		<el-form :model="productValue" :rules="rules" ref="productValue" label-width="100px" class="add-product-form" >
+		<el-form :model="productValue" :rules="rules" ref="productValue" label-width="140px" class="add-product-form" >
 		  <el-form-item label="商品分类:" prop="product_category_id">
 		      <el-cascader class="input-width"  placeholder="请选择"  clearable
 		        v-model="selectProductCateValue"
@@ -65,7 +65,7 @@
 	//http://yinruifang.cn/index/Api/brand_one?id=49   通过  id获取该条商品品牌信息
 	
 	//引入获取商品列表的数据api
-	import {fetchCateList,fetchBrandList} from '../../../api/product';
+	import {fetchCateList,fetchBrandList,createProduct} from '../../../api/product';
 	export default{
 		name:'addpoduct',
 		data:function(){
@@ -95,7 +95,15 @@
 					verify_status:0//审核状态  默认是未审核
 				},				
 				rules:{//验证条件
-					
+					name:[
+						{required:true,message:'请输入商品名称',trigger:'blur'},
+						{min:2,max:140,message:'长度在2-140个字符',trigger:'blur'}
+					],
+					sub_title:[{required:true,message:'请输入商品副标题',trigger:'blur'}],
+					product_category_id:[{required:true,message:'请选择商品分类',trigger:'blur'}],
+					brand_id:[{required:true,message:'请选择商品品牌',trigger:'blur'}],
+					description:[{required:true,message:'请输入商品介绍',trigger:'blur'}],
+					pic:[{required:true,message:'请输入图片地址',trigger:'blur'}],
 				},
 				//商品分类
 				productCateOptions:[],
@@ -127,10 +135,39 @@
 				console.log(formName);
 				this.$refs[formName].validate((valid)=>{
 					if(valid){//验证通过
-					//传到后台的参数
-					console.log(this.productValue);
-					//调用后台接口
-						
+						//查找选中的brand的名称
+						for(var i = 0;i<this.brandOptions.length;i++){
+							if(this.brandOptions[i].id == this.productValue.brand_id){
+								this.productValue.brand_name = this.brandOptions[i].name;
+								break;
+							}
+						}
+						//查找选中的分类的id对应的名称
+						for(var i = 0;i<this.productCateOptions.length;i++){
+							for(var j = 0;j<this.productCateOptions[i].children.length;j++){
+								
+								if(this.productCateOptions[i].children[j].value == this.productValue.product_category_id){
+									this.productValue.product_category_name = this.productCateOptions[i].children[j].label;
+									break;
+								}
+							}
+						}
+						//
+						//传到后台的参数
+						console.log(this.productValue);
+						//调用后台接口
+						createProduct(this.productValue).then(res=>{
+							console.log(res);
+							if(res.type ==='success'){//添加成功
+								this.$message({
+									message:'成功添加商品',
+									duration:1000,
+									type:'success'
+								})
+								//跳转到列表页
+								this.$router.push('/pms/product');
+							}
+						})
 					}
 				})
 				
