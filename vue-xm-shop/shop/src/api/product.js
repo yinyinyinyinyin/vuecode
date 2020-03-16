@@ -39,3 +39,31 @@ export function createProduct(data){
 		data:data
 	})
 }
+
+/*通过 id号查找某一条商品信息*/
+export function getOneProduct(params){
+	return request({
+		url:'/Api/product_one',
+		method:'get',
+		params:params
+	})
+}
+
+/*商品分类通过子级节点的id查找到父级节点信息的接口*/
+export function getParentProductCate(params){
+	return request({
+		url:'/Api/get_parent_id',
+		method:'get',
+		params:params
+	})
+}
+
+
+/*修改一条商品信息*/
+export function updateProduct(data){
+	return request({
+		url:'/Api/update_product',
+		method:'post',
+		data:data
+	})
+}

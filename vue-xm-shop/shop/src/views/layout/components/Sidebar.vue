@@ -24,7 +24,7 @@
 					      <i class="icon iconfont my-icon" :class="item.meta.icon"></i>
 					      <span>{{item.meta.title}}</span>
 					    </template>
-					    <el-menu-item-group v-for="(item2,index2) in item.children" :key="index2">		         
+					    <el-menu-item-group v-for="(item2,index2) in item.children" :key="index2" v-if="!item2.hidden">		         
 					      <router-link :to="item.path+'/'+item2.path">
 					  			<el-menu-item :index="item.path+'/'+item2.path">
 									<i class="icon iconfont my-icon" :class="item2.meta.icon"></i>

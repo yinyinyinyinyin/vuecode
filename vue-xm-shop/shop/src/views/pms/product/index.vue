@@ -85,10 +85,9 @@
 				<el-table-column label="排序" prop="sort"></el-table-column>
 				<el-table-column label="销量" prop="sale"></el-table-column>
 				<el-table-column label="审核状态" prop="verify_status"></el-table-column>
-				<el-table-column label="操作" >
-					<template slot-scope="scope">
-						<button>编辑</button>
-						<button>删除</button>
+				<el-table-column label="操作" width="150" >
+					<template slot-scope="scope" >
+						<el-button type="primary" size="mini"  @click="handleUpdatePeoduct(scope.row)" >编辑</el-button><el-button type="danger" size="mini">删除</el-button>
 					</template>
 					
 				</el-table-column>
@@ -235,6 +234,11 @@
 				this.selectProductCateValue = null;
 				//重置后再一次获取数据
 				this.getList();	
+			},
+			//修改一条记录
+			handleUpdatePeoduct:function(row){
+				//跳转到修改页面
+				this.$router.push({path:'/pms/updateproduct',query:{id:row.id}});
 			}
 		},
 		filters:{

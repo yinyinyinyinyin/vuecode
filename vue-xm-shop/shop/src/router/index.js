@@ -56,6 +56,13 @@ const routes = [
 			  component:()=>import(/*webpackChunkName:"addproduct"*/'@/views/pms/product/add') 
 		  },
 		  {
+			  path:'updateproduct',
+			  name:'updateproduct',
+			  meta:{title:"修改商品",icon:'icon-tianjia'},
+			  hidden:true,
+			  component:()=>import(/*webpackChunkName:"updateproduct"*/'@/views/pms/product/update') 
+		  },
+		  {
 			  path:'productCate',
 			  name:'productCate',
 			  meta:{title:"商品分类",icon:'icon-fenlei1'},
