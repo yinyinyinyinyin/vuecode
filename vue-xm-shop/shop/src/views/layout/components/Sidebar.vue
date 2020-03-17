@@ -1,11 +1,12 @@
 <template>
-	<div class="sidebar-container">
+	<div >
 		 <el-menu
 		      default-active="2"
 		      class="el-menu-vertical-demo"
 		      @open="handleOpen"
 		      @close="handleClose"
 		      background-color="#545c64"
+			  :collapse="isCollapse"
 		      text-color="#fff"
 		      active-text-color="#ffd04b">
 			  <template v-for="(item,index) in routes"  v-if="!item.hidden">
@@ -40,11 +41,12 @@
 </template>
 
 <script>
+	import {mapGetters} from 'vuex';
 	export default{
 		name:'sidebar',
 		data:function(){
 			return {
-				routes:[]//左侧菜单的数组
+				routes:[],//左侧菜单的数组
 			}
 		},
 		methods:{
@@ -60,6 +62,13 @@
 		mounted:function(){
 			console.log(this.$router);
 			this.routes = this.$router.options.routes;
+			console.log(this.sidebar);
+		},
+		computed:{
+			...mapGetters(['sidebar']),
+			isCollapse:function(){
+				return !this.sidebar.opened;
+			}
 		}
 	}
 </script>
