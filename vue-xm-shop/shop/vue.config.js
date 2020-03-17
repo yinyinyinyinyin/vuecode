@@ -8,7 +8,7 @@ module.exports={
 		open:true,
 		proxy: {//跨域
 			'/api': {
-				target: 'http://127.0.0.1:8009',  // target host    网络服务器  http://yinruifang.cn
+				target: 'http://yinruifang.cn',  // target host    网络服务器  http://yinruifang.cn
 				ws: true,  // proxy websockets
 				changeOrigin: true,  // needed for virtual hosted sites
 				pathRewrite: {
