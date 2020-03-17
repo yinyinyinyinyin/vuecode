@@ -4,7 +4,6 @@
 			<i class="icon iconfont icon-hanbaobao my-hanbao" @click="handleChangeType"
 			:class="{'is-active':!this.sidebar.opened}"></i>
 			<div class="mianbaodaohang"><Breadcrumb></Breadcrumb></div>
-			
 		</div>
 		<div class="navbar-img">
 			<el-dropdown>

@@ -1,6 +1,8 @@
 <template>
 	<el-breadcrumb separator="/">
-	  <el-breadcrumb-item v-for="(item,index) in levelList" :key="index" >{{item.meta.title}}</el-breadcrumb-item>
+	  <el-breadcrumb-item v-for="(item,index) in levelList" :key="index" >
+		<router-link :to="item.redirect || item.path">{{item.meta.title}}</router-link>
+	  </el-breadcrumb-item>
 	</el-breadcrumb>
 </template>
 
@@ -30,13 +32,11 @@
 					matched = [{path:'/home',meta:{title:'首页'}}].concat(matched);
 					
 				}
-				
 				this.levelList = matched;
 				console.log(this.levelList);
 			}
 		}
 	}
-	
 </script>
 
 <style>

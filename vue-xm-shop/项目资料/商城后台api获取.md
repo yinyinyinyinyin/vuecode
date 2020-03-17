@@ -345,3 +345,26 @@ method:'post',
 url:'/index/Api/update_brand_show_status',
 method:'post',
 
+
+
+## 25.登录api
+
+url 地址：http://yinruifang.cn/index/Api/login
+参    数：{
+	username:admin
+	password:123456
+}
+
+请求方式：post
+返 回 值：
+{
+"status":200,
+"msg":'登录成功',
+"url":"Index",
+'userid':$r["id"],
+'username':$r["username"],
+'name':$r["name"],
+'encryption':$r["encryption"],
+'roleid'=>$r["roleid"],
+"type"=> 'success'
+}
