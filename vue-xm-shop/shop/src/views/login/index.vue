@@ -16,8 +16,6 @@
 		    </el-form-item>
 		  </el-form>
 		</el-card>
-		
-		
 	</div>
 </template>
 
@@ -51,13 +49,20 @@
 				}
 			}
 		},
+		watch:{
+			$route(route){}	
+		},
 		methods:{
 			submitForm:function(formName){
-				console.log(formName);
+				console.log(this.loginForm);
 				this.$refs.loginForm.validate(valid=>{
 					console.log(58);
 					if(valid){//验证通过,修改 vuex里面相关的login的state内容
-						
+						this.$store.dispatch('Login',this.loginForm).then(res=>{
+							console.log(res);
+							this.$router.push({path:'/'});
+							
+						})
 					}else{//验证不通过
 						return false;
 					}

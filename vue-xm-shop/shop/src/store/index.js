@@ -20,6 +20,7 @@ vuex状态如果发生变化,会自动触发渲染;缓存如果发生变化需�
 Vue.use(Vuex)
 //将 app的分支引入进来
 import app from './modules/app';
+import user from './modules/user';
 import getters from './getters';
 
 /*
@@ -35,6 +36,6 @@ export default new Vuex.Store({
   },
   getters,
   modules: {
-	  app
+	  app,user
   }
 })

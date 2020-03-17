@@ -13,7 +13,9 @@
 			  </div>
 			  <el-dropdown-menu slot="dropdown">
 			    <el-dropdown-item>首页</el-dropdown-item>
-			    <el-dropdown-item>退出</el-dropdown-item>
+			    <el-dropdown-item >
+					<span @click="logout">退出qq</span>
+				</el-dropdown-item>
 			  </el-dropdown-menu>
 			</el-dropdown>
 		</div>
@@ -40,6 +42,12 @@
 			handleChangeType:function(){
 				//将状态提价到actions
 				this.$store.dispatch('ToggleSideBar');
+			},
+			logout:function(){
+				console.log('view-45');
+				this.$store.dispatch('Logout').then(()=>{
+					this.$router.push('/login');
+				})
 			}
 		},
 		components:{
