@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Message} from 'element-ui';
-console.log(process.env.BASE_API);
+//console.log(process.env.BASE_API);
 //创建axios实例
 const service = axios.create({
 	baseURL:'/api/',//api的基础路径http://yinruifang.cn/

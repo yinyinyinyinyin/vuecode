@@ -52,6 +52,10 @@
 		watch:{
 			$route(route){}	
 		},
+		created:function(){
+			this.loginForm.username = getCookie("username");
+			this.loginForm.password = "";
+		},
 		methods:{
 			submitForm:function(formName){
 				console.log(this.loginForm);
@@ -59,7 +63,6 @@
 					console.log(58);
 					if(valid){//验证通过,修改 vuex里面相关的login的state内容
 						this.$store.dispatch('Login',this.loginForm).then(res=>{
-							console.log(res);
 							this.$router.push({path:'/'});
 							
 						})

@@ -12,7 +12,7 @@ router.beforeEach((to,from,next)=>{
 		console.log('per-12');
 		if(to.path === '/login'){
 			console.log('per-14');
-			next({path:'/home'});
+			next('/home');
 		}else{
 			console.log('per-17');
 			next();
@@ -25,5 +25,5 @@ router.beforeEach((to,from,next)=>{
 			next('/login');
 		}
 	}
-	next();
+	//next();
 })
