@@ -20,6 +20,7 @@
 </template>
 
 <script>
+	import {getCookie} from '@/utils/support';
 	export default{
 		name:'login',
 		data:function(){
